@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3307
--- Generation Time: Oct 18, 2024 at 04:50 AM
+-- Host: 127.0.0.1
+-- Generation Time: Oct 23, 2024 at 08:33 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `intern`
+-- Database: `internn`
 --
 
 -- --------------------------------------------------------
@@ -39,20 +39,6 @@ CREATE TABLE `admins` (
 
 INSERT INTO `admins` (`admin_id`, `username`, `password_hash`) VALUES
 (3, 'admin@admin', '$2y$10$Sq7Jmxx5IM9YqVDkUfVOWujdVXoG5qPNOkcpnuv1OY08OBS/pIrBC');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `appeal`
---
-
-CREATE TABLE `appeal` (
-  `appeal_id` int(11) NOT NULL,
-  `student_id` int(11) NOT NULL,
-  `application_id` int(11) NOT NULL,
-  `reason_appeal` text NOT NULL,
-  `status` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -132,9 +118,24 @@ INSERT INTO `internship_applications` (`application_id`, `borang_sokongan`, `sta
 ('LIUU-056', '1726103965_1723682937_TestingPDF.pdf', '2024-09-12', '2024-11-13', 9, NULL, 'Tiada'),
 ('LIUU-057', '1726130716_Application_Report_LIUU-048.pdf', '2024-09-09', '2025-02-20', 9, NULL, 'Tiada'),
 ('LIUU-058', '1726730773_Laporan_Permohonan_LIUU-004.pdf', '2024-09-19', '2024-09-26', 11, NULL, 'Tiada'),
-('LIUU-059', '1728437109_CSC159 LAB07.pdf', '2024-10-10', '2024-12-29', 9, NULL, 'Tiada'),
-('LIUU-060', '1728443461_CSC159 LAB 05.pdf', '2024-10-09', '2024-10-10', 9, NULL, 'Tiada'),
-('LIUU-061', '1728443668_CSC159 LAB07.pdf', '2024-10-09', '2024-10-10', 9, NULL, 'Tiada');
+('LIUU-059', '1728352195_dummies.pdf', '2024-10-10', '2025-10-10', 9, NULL, 'Tiada'),
+('LIUU-060', '1728441928_dummies.pdf', '2024-10-09', '2024-10-10', 9, NULL, 'Tiada'),
+('LIUU-061', '1728526551_dummies.pdf', '2024-10-10', '2024-10-11', 9, NULL, 'Tiada'),
+('LIUU-062', '1728546452_dummies.pdf', '2024-10-10', '2024-10-11', 9, NULL, 'Tiada'),
+('LIUU-063', '1728548655_dummies.pdf', '2024-10-10', '2024-10-11', 9, NULL, 'Tiada'),
+('LIUU-064', '1728869983_dummies.pdf', '2024-10-15', '2024-10-15', 9, NULL, 'Tiada'),
+('LIUU-065', '1728870559_dummies.pdf', '2024-10-15', '2024-10-16', 9, NULL, 'Tiada'),
+('LIUU-066', '1728975474_dummies.pdf', '2024-10-15', '2024-10-16', 9, NULL, 'Tiada'),
+('LIUU-067', '1728975802_dummies.pdf', '2024-10-15', '2024-10-16', 9, NULL, 'Tiada'),
+('LIUU-068', '1729129232_dummies.pdf', '2024-10-17', '2024-10-18', 9, NULL, 'Tiada'),
+('LIUU-069', '1729129753_dummies.pdf', '2024-10-18', '2024-10-26', 9, NULL, 'Tiada'),
+('LIUU-070', '1729150107_dummies.pdf', '2024-10-18', '2024-10-26', 9, NULL, 'Tiada'),
+('LIUU-071', '1729150400_dummies.pdf', '2024-10-18', '2024-10-25', 9, NULL, 'Tiada'),
+('LIUU-072', '1729150493_dummies.pdf', '2024-10-18', '2024-11-01', 9, NULL, 'Tiada'),
+('LIUU-073', '1729150626_dummies.pdf', '2024-10-10', '2024-10-30', 9, NULL, 'Tiada'),
+('LIUU-074', '1729151641_dummies.pdf', '2024-10-23', '2024-10-25', 9, NULL, 'Tiada'),
+('LIUU-075', '1729152158_dummies.pdf', '2024-10-30', '2024-10-30', 9, NULL, 'Tiada'),
+('LIUU-076', '1729152253_dummies.pdf', '2024-10-29', '2024-10-30', 9, NULL, 'Tiada');
 
 -- --------------------------------------------------------
 
@@ -146,7 +147,7 @@ CREATE TABLE `rayuan` (
   `rayuan_id` int(11) NOT NULL,
   `application_id` varchar(10) DEFAULT NULL,
   `id_lokasi` int(11) DEFAULT NULL,
-  `appeal_status` enum('Dalam Proses','Lulus','Tidak Lulus') DEFAULT NULL,
+  `appeal_status` varchar(20) NOT NULL DEFAULT 'pending',
   `remarks` text DEFAULT NULL,
   `student_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL
@@ -157,45 +158,20 @@ CREATE TABLE `rayuan` (
 --
 
 INSERT INTO `rayuan` (`rayuan_id`, `application_id`, `id_lokasi`, `appeal_status`, `remarks`, `student_id`, `user_id`) VALUES
-(23, 'LIUU-048', 87, '', '123123', 59, 9),
-(24, 'LIUU-003', 1, 'Dalam Proses', 'Testing Syasya', 5, 1),
-(25, 'LIUU-003', 75, 'Lulus', 'Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 ', 6, 1),
-(26, 'LIUU-003', 69, 'Tidak Lulus', '@9834$*(^(*69349276(*#$^9832649838&amp;(*A&amp;42938694jnsdf', 4, 1),
-(27, 'LIUU-005', 97, '', 'Saya nak rumah dekat', 9, 1),
-(28, 'LIUU-003', 80, 'Dalam Proses', 'Testing123', 4, 1),
-(29, 'LIUU-058', 1, 'Dalam Proses', 'tsetotsettsotseotsots', 71, 11),
-(30, 'LIUU-048', 99, 'Dalam Proses', 'sbb kena blk kampung utk hall yg tk dpt dielak.', 59, 9),
-(31, 'LIUU-059', 1, 'Tidak Lulus', 'dkt dgn rumah', 72, 9),
-(32, 'LIUU-060', 1, 'Tidak Lulus', 'aa', 73, 9),
-(33, 'LIUU-061', 1, '', 'a', 74, 9);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `requests`
---
-
-CREATE TABLE `requests` (
-  `id` int(11) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `college_uni` varchar(255) NOT NULL,
-  `no_phone` varchar(20) NOT NULL,
-  `nama_pegawai` varchar(255) NOT NULL,
-  `status` varchar(20) NOT NULL DEFAULT 'pending'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `requests`
---
-
-INSERT INTO `requests` (`id`, `password`, `email`, `college_uni`, `no_phone`, `nama_pegawai`, `status`) VALUES
-(3, '$2y$10$Ytf4LFssSRwPjoo4gYfpEOI0CxXan9Te7HHyST/HaZp76pUoPHG.O', 'abc@mail.com', 'abc', '123', 'abc', 'pending'),
-(5, '$2y$10$MCUguIiChLoVbuRFhjPED.b7ytWnWOCUvm0lJyROu8/ibyxoMgGHO', 'kptm@mail.com', 'kptm', '1234560789', 'uuu', 'pending'),
-(6, '$2y$10$7m2CAd9qkIWKNQcoPfLSyueaAi623OpyjGxt95EK2MTqP0vERQAYG', 'ipta@mail.com', 'ipta', '7410852936', 'ppp', 'pending'),
-(7, '$2y$10$q5V4CHHLtyDpuqrNDn/.WuptH.R7QKd69t7AkGhYOLdHXovo4vFiq', 'ipts@yahoo.com', 'ipts', '2589630147', 'yyy', 'rejected'),
-(8, '$2y$10$Ba7pnqeiJgZy3T3u9eM.Q.UKHZbFNwGrqJlxNnZmv3mCFj9VPXyrW', 'yow@mail.com', 'yow', '7891230456', 'qqq', 'rejected'),
-(10, '$2y$10$aR1UYI58.pM3ABARwNRPZ.OBybOA5ZlxKVb097e99dMjtz4IEv9rC', 'utm@gmail.com', 'utm', '7894561230', 'rin', 'pending');
+(23, 'LIUU-048', 87, 'Approved', '123123', 59, 9),
+(24, 'LIUU-003', 1, 'Rejected', 'Testing Syasya', 5, 1),
+(25, 'LIUU-003', 75, 'Rejected', 'Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 Testing 456 ', 6, 1),
+(26, 'LIUU-003', 69, 'Rejected', '@9834$*(^(*69349276(*#$^9832649838&amp;(*A&amp;42938694jnsdf', 4, 1),
+(27, 'LIUU-005', 97, 'Approved', 'Saya nak rumah dekat', 9, 1),
+(28, 'LIUU-003', 80, 'Rejected', 'Testing123', 4, 1),
+(29, 'LIUU-058', 1, 'Rejected', 'tsetotsettsotseotsots', 71, 11),
+(30, 'LIUU-059', 1, 'Approved', 'Test', 72, 9),
+(31, 'LIUU-060', 70, 'Approved', 'pindah rumah', 73, 9),
+(40, 'LIUU-062', 49, 'Approved', ' j ml; ;l', 75, 9),
+(41, 'LIUU-062', 65, 'Approved', 'jknf', 75, 9),
+(42, 'LIUU-063', 1, 'Rejected', 'bhk', 76, 9),
+(43, 'LIUU-066', 1, 'Pending', 'aaa', 79, 9),
+(44, 'LIUU-065', 1, 'Approved', 'aaa', 78, 9);
 
 -- --------------------------------------------------------
 
@@ -263,7 +239,7 @@ INSERT INTO `students` (`student_id`, `student_name`, `student_matrics`, `studen
 (43, 'Mirul', 'Jdljfnwlqr3q1', '013490341041', 14, 2, 'LIUU-034', 'Sedang Diproses', 'Diploma in Law'),
 (44, 'Mirul', 'Jdljfnwlqr3q1', '013490341041', 14, 2, 'LIUU-035', 'Sedang Diproses', 'Diploma in Law'),
 (45, 'Mirul', 'Jdljfnwlqr3q1', '013490341041', 14, 2, 'LIUU-036', 'Sedang Diproses', 'Diploma in Law'),
-(46, 'Test', '231321', '423423423424', 8, 18, 'LIUU-037', 'Tidak Lulus', 'Diploma in Law'),
+(46, 'Test', '231321', '423423423424', 8, 18, 'LIUU-037', 'Sedang Diproses', 'Diploma in Law'),
 (47, 'Test', '231321', '423423423424', 8, 18, 'LIUU-038', 'Sedang Diproses', 'Diploma in Law'),
 (48, 'Testinb', '1231', '123123123213', 10, 78, 'LIUU-039', 'Sedang Diproses', 'Diploma in Law'),
 (49, 'Testinb', '1231', '123123123213', 10, 78, 'LIUU-040', 'Sedang Diproses', 'Diploma in Law'),
@@ -276,10 +252,10 @@ INSERT INTO `students` (`student_id`, `student_name`, `student_matrics`, `studen
 (56, 'Aiman', '2022', '019283901283', 16, 1, 'LIUU-046', 'Sedang Diproses', 'Degree in Law'),
 (57, 'Rahimi', '2023', '091238021902', 11, 87, 'LIUU-046', 'Sedang Diproses', 'ACCA'),
 (58, 'Abu', '2025', '090909430320', 14, 2, 'LIUU-047', 'Sedang Diproses', 'Diploma in Law'),
-(59, 'Ali', '20240305', '000921116023', 16, 1, 'LIUU-048', 'Lulus', 'Diploma in Law'),
-(60, 'Abu', '20240203', '020911032034', 11, 89, 'LIUU-048', 'Lulus', 'Bachelors in Law'),
+(59, 'Ali', '20240305', '000921116023', 16, 1, 'LIUU-048', 'Tidak Lulus', 'Diploma in Law'),
+(60, 'Abu', '20240203', '020911032034', 11, 89, 'LIUU-048', 'Tidak Lulus', 'Bachelors in Law'),
 (62, 'Ali', '123', '019230129372', 4, 48, 'LIUU-049', 'Lulus', 'Diploma in Law'),
-(63, 'Aiman', '91312001293', '032141239193', 12, 93, 'LIUU-050', 'Tidak Lulus', 'Diploma in Law'),
+(63, 'Aiman', '91312001293', '032141239193', 12, 93, 'LIUU-050', 'Sedang Diproses', 'Diploma in Law'),
 (64, 'Mohamad', '09123', 'Notentera12123', 7, 70, 'LIUU-051', 'Sedang Diproses', 'Diploma in Law'),
 (65, 'Aiman', '0918321', '034129831293', 11, 88, 'LIUU-052', 'Sedang Diproses', 'Diploma in Law'),
 (66, 'kjhkjhk', '09809809', '093208402340', 14, 2, 'LIUU-053', 'Sedang Diproses', 'Diploma in Law'),
@@ -288,9 +264,24 @@ INSERT INTO `students` (`student_id`, `student_name`, `student_matrics`, `studen
 (69, '', '', '', 0, 0, 'LIUU-056', 'Sedang Diproses', ''),
 (70, '', '', '', 0, 0, 'LIUU-057', 'Sedang Diproses', ''),
 (71, 'Abu', '23423424', '1231231', 10, 76, 'LIUU-058', 'Tidak Lulus', '23423423'),
-(72, 'YUP', '369852', '031225', 10, 84, 'LIUU-059', 'Tidak Lulus', 'CS230'),
-(73, 'abc', '123', '2', 16, 1, 'LIUU-060', 'Tidak Lulus', 'a'),
-(74, 'z', 'a', 's', 16, 1, 'LIUU-061', 'Tidak Lulus', 's');
+(72, 'aeshae', '00000', '123456', 16, 1, 'LIUU-059', 'Tidak Lulus', 'Information Technology'),
+(73, 'abc', '123', '123', 16, 1, 'LIUU-060', 'Tidak Lulus', 'abc'),
+(74, 'a', '1', '1', 16, 1, 'LIUU-061', 'Tidak Lulus', 'a'),
+(75, 'a', 'a', 'a', 16, 1, 'LIUU-062', 'Tidak Lulus', 'a'),
+(76, 'as', 'sa', 'sas', 16, 1, 'LIUU-063', 'Tidak Lulus', 'sa'),
+(77, 'aa', '12', '12', 7, 70, 'LIUU-064', 'Sedang Diproses', 'aa'),
+(78, 'aa', 'aa', 'aa', 16, 1, 'LIUU-065', 'Tidak Lulus', 'aa'),
+(79, 'arif', '123', '123', 12, 95, 'LIUU-066', 'Tidak Lulus', 'computer'),
+(80, 'aa', 'aa', 'aa', 16, 1, 'LIUU-067', 'Lulus', 'aa'),
+(81, 'test', 'aa', 'aa', 16, 1, 'LIUU-068', 'Sedang Diproses', 'aa'),
+(82, 'ds', 'dd', 'dd', 7, 70, 'LIUU-069', 'Sedang Diproses', 'dd'),
+(83, 'aa', 'aa', 'aa', 9, 74, 'LIUU-070', 'Sedang Diproses', 'aa'),
+(84, 'aa', 'aa', 'aa', 13, 98, 'LIUU-071', 'Sedang Diproses', 'aa'),
+(85, 'cc', 'cc', 'cc', 13, 99, 'LIUU-072', 'Sedang Diproses', 'cc'),
+(86, 'bb', 'bb', 'bb', 10, 84, 'LIUU-073', 'Sedang Diproses', 'bb'),
+(87, 'cc', 'cc', 'cc', 11, 88, 'LIUU-074', 'Sedang Diproses', 'cc'),
+(88, 'bb', 'bb', 'bb', 6, 61, 'LIUU-075', 'Sedang Diproses', 'bb'),
+(89, 'bb', 'bb', 'bb', 12, 95, 'LIUU-076', 'Sedang Diproses', 'bb');
 
 -- --------------------------------------------------------
 
@@ -466,34 +457,20 @@ CREATE TABLE `users` (
   `college_uni` varchar(100) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `no_phone` varchar(20) NOT NULL,
-  `nama_pegawai` varchar(255) DEFAULT NULL,
-  `status` enum('pending','approved','rejected') DEFAULT 'pending'
+  `nama_pegawai` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `password`, `email`, `college_uni`, `name`, `no_phone`, `nama_pegawai`, `status`) VALUES
-(1, '$2y$10$NzGbSh6OcYqhbIJka.JoTOYMxRlTIfNL7MUhMq6Rf9YNhNh5hZ/5y', 'admin123@gmail.com', 'KPM Beranang', 'Aiman Rahimi', '01122326736', NULL, 'approved'),
-(6, '$2y$10$3IXWisJAsuvwODCm7Z3lfe4ohnY8fTImyvjFJF7rkrJy1219LGdnO', 'ali123@gmail.com', 'UITM Shah Alam', 'Ali bin Abu', '0111234567', NULL, 'approved'),
-(8, '$2y$10$xTxC/gDPcL1LqusDrYePnufIib5xAtsx3ju59IfdY/ilZEUYdRPuO', 'poli@gmail.com', 'Politeknik SultanMizan', '', '0912039102', NULL, 'approved'),
-(9, '$2y$10$pcWIASmvsTHOzW2xqExK1.9XKFQOysz4rnCSYJCpQpSMOy/6HLWfi', 'ukm@gmail.com', 'Universiti Kebangsaan Malaysia', '', '03119043821', NULL, 'approved'),
-(10, '$2y$10$phmsCs.VG77bMIVK.8khPOMuAeAQ16dv7QKKr3Qu/raaZ1aQsqDrK', 'aimanrahimi8080@gmail.com', 'Universiti Kuala Lumpur', '', '01162232686', 'Aiman Rahimi', 'rejected'),
-(11, '$2y$10$YPvS7Nw4G04MxTdwm42QrODFp37D40nH7XnVbdI43mO7r.FXcpFEW', 'uitm@gmail.com', 'UITM', '', '012212313121', 'Ali', 'rejected'),
-(12, '', 'uitmkt@gmail.com', 'UiTM Kuala Terengganu', '', '0173041210', NULL, 'rejected'),
-(16, '$2y$10$4l.sIzS8qz9zeSxmglCBNeBfIl61XAjbDBI1S7ipBYx6kAWncLpTK', 'ump@gmail.com', 'Ump', '', '123', 'Nabil Abhar', 'rejected'),
-(19, '$2y$10$Ucq4hLr6zOKdzonUVqGWxe6SSA5rRb.X4z1dxLgn9AeNSmM5Tq5lW', 'yup@gmail.com', 'UiTM Kuala Terengganu', '', '0173041210', 'suf', 'approved'),
-(20, '$2y$10$PcJd/KFDYDWfykrsSse1JePoNDnVz/WL9PsYttdu0J4EKZhWn1Xe6', 'uitmputrajaya@gmail.com', 'uitmpj', '', '0123456789', 'saya', 'pending'),
-(21, '$2y$10$OYNnlqSQMyxqfd1ZA1stWeosj5RXDoyxwV9P0Ymh2i1Z8NHYASG7C', 'uitmmachang@mail.com', 'UiTM Machang', '', '0123456789', 'Adam', 'approved'),
-(22, '$2y$10$ztcD3IDQYJZ3SWoU/SUuWOGYO/dICCR8tj6eYs2.gG97XWLD/ltHq', 'umpsa@gmail.com', 'umpsa', '', '258800', 'aeshae', 'approved'),
-(23, '$2y$10$JSD99x4Aj596eSmyIiL92eRtrLHeVQKzz3AqOxxH.NlVIUnNoB7G6', 'utm@yahoo.com', 'utm', '', '7894561230', 'rin', 'approved'),
-(24, '', 'test@mail.com', 'test', '', '7896325410', NULL, 'pending'),
-(25, 'ttu123123', 'test2@mail.com', 'test2', '', '1472503698', 'ttu', 'pending'),
-(26, '$2y$10$sStUj0Ib3aijBBcKR6oEjOEgLH3BRdMh3p06.7hos0rAPp4A0sFP6', 'testadd@yahoo.com', 'testAdd', '', '3698520147', 'qin', 'pending'),
-(27, '$2y$10$zmcgjS3YwFw1b7gne3zGUePhcfrCA72jnEh83GxRvVyvNReOFu1Au', 'testadd2@yahoo.com', 'testAdd2', '', '7893652140', 'xukun', 'pending'),
-(28, '$2y$10$I73RkL1POPbwwB1b4B.Y3OdI7IYrQeaFRLkqAeYMPUvDF38tobf0q', 'testadd3@yahoo.com', 'testAdd3', '', '0321478956', 'eeo', 'approved'),
-(29, '$2y$10$K/i3UYPyFQEYBpZHIGKMAu8WpIW9I3Xf6DRRm.oIvl.jmc2R/DqTq', 'utm@gmail.com', 'utm', '', '10032456789', 'nabil', 'approved');
+INSERT INTO `users` (`user_id`, `password`, `email`, `college_uni`, `name`, `no_phone`, `nama_pegawai`) VALUES
+(1, '$2y$10$NzGbSh6OcYqhbIJka.JoTOYMxRlTIfNL7MUhMq6Rf9YNhNh5hZ/5y', 'admin123@gmail.com', 'KPM Beranang', 'Aiman Rahimi', '01122326736', NULL),
+(6, '$2y$10$3IXWisJAsuvwODCm7Z3lfe4ohnY8fTImyvjFJF7rkrJy1219LGdnO', 'ali123@gmail.com', 'UITM Shah Alam', 'Ali bin Abu', '0111234567', NULL),
+(8, '$2y$10$xTxC/gDPcL1LqusDrYePnufIib5xAtsx3ju59IfdY/ilZEUYdRPuO', 'poli@gmail.com', 'Politeknik SultanMizan', '', '0912039102', NULL),
+(9, '$2y$10$pcWIASmvsTHOzW2xqExK1.9XKFQOysz4rnCSYJCpQpSMOy/6HLWfi', 'ukm@gmail.com', 'Universiti Kebangsaan Malaysia', '', '03119043821', NULL),
+(10, '$2y$10$phmsCs.VG77bMIVK.8khPOMuAeAQ16dv7QKKr3Qu/raaZ1aQsqDrK', 'aimanrahimi8080@gmail.com', 'Universiti Kuala Lumpur', '', '01162232686', 'Aiman Rahimi'),
+(11, '$2y$10$YPvS7Nw4G04MxTdwm42QrODFp37D40nH7XnVbdI43mO7r.FXcpFEW', 'uitm@gmail.com', 'UITM', '', '012212313121', 'Ali');
 
 --
 -- Indexes for dumped tables
@@ -505,12 +482,6 @@ INSERT INTO `users` (`user_id`, `password`, `email`, `college_uni`, `name`, `no_
 ALTER TABLE `admins`
   ADD PRIMARY KEY (`admin_id`),
   ADD UNIQUE KEY `username` (`username`);
-
---
--- Indexes for table `appeal`
---
-ALTER TABLE `appeal`
-  ADD PRIMARY KEY (`appeal_id`);
 
 --
 -- Indexes for table `internship_applications`
@@ -527,12 +498,6 @@ ALTER TABLE `rayuan`
   ADD KEY `application_id` (`application_id`),
   ADD KEY `id_lokasi` (`id_lokasi`),
   ADD KEY `fk_user` (`user_id`);
-
---
--- Indexes for table `requests`
---
-ALTER TABLE `requests`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `students`
@@ -571,28 +536,16 @@ ALTER TABLE `admins`
   MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `appeal`
---
-ALTER TABLE `appeal`
-  MODIFY `appeal_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `rayuan`
 --
 ALTER TABLE `rayuan`
-  MODIFY `rayuan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
-
---
--- AUTO_INCREMENT for table `requests`
---
-ALTER TABLE `requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `rayuan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT for table `tbllokasi`
@@ -604,7 +557,7 @@ ALTER TABLE `tbllokasi`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
