@@ -149,7 +149,6 @@ include 'db_connect.php';
             }
 
     </style>
-   
    <body class="main-layout">
       <!-- loader  -->
       <div class="loader_bg">
@@ -326,7 +325,6 @@ include 'db_connect.php';
                                           <td>${negeri}</td>
                                           <td>${lokasi}</td>
                                           <td><button type="button" onclick="removeStudent(this)"><i class="fas fa-trash"></i></button></td>
-                                          <td><button class="edit-btn" onclick="editRow(this)"><i class="fas fa-pencil-alt"></i></button></td>
                                        </tr>
                                     `;
                                     tableBody.insertAdjacentHTML('beforeend', rowHTML);
@@ -340,8 +338,6 @@ include 'db_connect.php';
                                  } else {
                                     alert('Please fill all fields before adding.');
                                  }
-
-                                 
                               }
 
 
@@ -470,7 +466,6 @@ include 'db_connect.php';
             document.getElementById('successModal').style.display = 'none';
          }
       </script>
-
       <script src="js/jquery.min.js"></script>
       <script src="js/popper.min.js"></script>
       <script src="js/bootstrap.bundle.min.js"></script>
@@ -478,6 +473,7 @@ include 'db_connect.php';
       <script src="js/plugin.js"></script>
       <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
       <script src="js/custom.js"></script>
-
    </body>
 </html>
+
+

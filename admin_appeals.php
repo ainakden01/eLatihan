@@ -52,128 +52,286 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="icon" href="images/fevicon.png" type="image/gif" />
     <style>
-        /* Full background */
-        .full_bg {
-            background: url('images/banner2.png') no-repeat center center fixed;
-            background-size: cover;
-            height: 100vh; 
-            width: 100vw;  
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        /* Sidebar styling */
-        .sidebar {
-            width: 250px;
-            height: 100%;
-            position: fixed;
-            background-color: #FFC107; /* Yellow background */
-            padding: 20px;
-            color: #fff;
-        }
-
-        .sidebar .logo img {
-            width: 150px;
-            margin-bottom: 20px; 
-        }
-
-        .sidebar h2 {
-            font-size: 18px;
-            color: #000; /* Black text */
-            text-align: center;
-            margin: 10px 0;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            margin: 15px 0;
-        }
-
-        .sidebar ul li a {
-            color: #000; /* Black text for links */
-            text-decoration: none;
-            font-size: 16px;
-            display: block;
-            padding: 10px;
-            transition: background 0.3s;
-        }
-
-        .sidebar ul li a:hover {
-            background-color: #F8F9FA; /* Light gray on hover */
-        }
-
-        /* Main content */
-        .main {
-            margin-left: 270px;
-            padding: 20px;
-            background-color: #FFFFFF; /* White background */
-        }
-
-        /* Header */
-        .header {
-            margin-left: 270px;
-            background-color: #FFFFFF; /* White background */
-            color: #000; /* Black text */
-            padding: 10px;
-        }
-
-        .header .user-info {
-            float: right;
-            font-size: 14px;
-        }
-
-        /* Table styling */
-        .table {
-            margin-top: 20px;
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .table th, .table td {
-            border: 1px solid #000; /* Black borders */
-            padding: 8px;
-            text-align: center;
-        }
-
-        .table th {
-            background-color: #343a40; /* Dark background */
-            color: #fff; /* White text */
-        }
-
-        .table td {
-            background-color: #F8F9FA; /* Light gray background */
-        }
-
-        /* Button styling */
-        .btn-search {
-            background-color: #FFC107; /* Yellow background */
-            border: none;
-            padding: 10px 20px;
-            color: #000; /* Black text */
-            font-weight: bold;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .sidebar {
+        body, html {
+                overflow-x: hidden;
                 width: 100%;
-                height: auto;
-                position: relative;
+                height: 100%;
+                margin: 0;
+                padding: 0;
             }
 
-            .main {
-                margin-left: 0;
+            body {
+                font-family: 'Poppins', sans-serif;
+                background-color: #f8f9fa;
+            }
+
+            .sidebar {
+                width: 250px;
+                height: 100vh;
+                background: #FFBC00;
+                position: fixed;
+                top: 0;
+                left: 0;
+                padding: 20px;
+                box-sizing: border-box;
+                color: #fff;
+            }
+
+            .sidebar .logo {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            .sidebar .logo img {
+                width: 40%;
+            }
+
+            .sidebar ul {
+                list-style: none;
+                padding: 0;
+            }
+
+            .sidebar ul li {
+                margin-bottom: 20px;
+            }
+
+            .sidebar ul li a {
+                text-decoration: none;
+                color: #fff;
+                font-size: 18px;
+                display: flex;
+                align-items: center;
+            }
+
+            .sidebar ul li a i {
+                margin-right: 10px;
             }
 
             .header {
-                margin-left: 0;
+                height: 60px;
+                background: #fff;
+                padding: 10px 20px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-left: 250px; 
+                box-sizing: border-box;
+            }
+
+            .header .search {
+                flex: 1;
+                margin-left: 20px;
+            }
+
+            .header .search input {
+                width: 100%;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .header .user-info {
+                display: flex;
+                align-items: center;
+            }
+
+            .header .user-info img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+
+            .main {
+                margin-left: 250px;
+                padding: 20px;
+                box-sizing: border-box;
+                max-width: calc(100% - 250px);
+                overflow-x: hidden; 
+            }
+
+            .main .cards {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+
+            .main .card {
+                flex: 1;
+                min-width: 200px;
+                margin: 10px;
+                padding: 20px;
+                background: #fff;
+                border-radius: 10px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .main .card h3 {
+                margin-bottom: 20px;
+                font-size: 24px;
+            }
+
+            .main .card p {
+                font-size: 18px;
+                margin: 0;
+            }
+
+            .main h2 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .main .table {
+                margin-top: 20px;
+                width: 100%; 
+                overflow-x: auto; 
+            }
+
+            .main .table thead th {
+                background-color: #343a40;
+                color: #fff;
+            }
+
+            .stats-box {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .stats-box .stats-item {
+                background-color: #fff;
+                border-radius: 10px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                flex: 1;
+                min-width: 200px;
+                max-width: 250px;
+                padding: 20px;
+                text-align: center;
+                color: #343a40;
+            }
+
+            .stats-box .stats-item h3 {
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+
+            .stats-box .stats-item .stats-number {
+                font-size: 36px;
+                font-weight: bold;
+            }
+
+            #appealTable
+        {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        #appealTable th, #appealTable td
+        {
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        /* Header Row Styling */
+        #appealTable thead th
+        {
+            background-color: #2a2a2a;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Body Row Styling */
+        #appealTable tbody tr:nth-child(odd)
+        {
+            background-color: #f9f9f9;
+        }
+
+        #appealTable tbody tr:nth-child(even)
+        {
+            background-color: #fff;
+        }
+
+        #appealTable tbody tr:hover
+        {
+            background-color: #f1f1f1;
+        }
+
+        /* Pagination Styling */
+        .pagination
+        {
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        .pagination a
+        {
+            color: #333;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            margin: 0 4px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .pagination a.active
+        {
+            background-color: #2a2a2a;
+            color: white;
+            border: 1px solid #2a2a2a;
+        }
+
+        .pagination a:hover:not(.active)
+        {
+            background-color: #ddd;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px)
+        {
+            #appealTable thead {
+                display: none;
+            }
+
+            #appealTable tbody tr {
+                display: block;
+                margin-bottom: 15px;
+            }
+
+            #appealTable tbody tr td {
+                display: block;
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+
+            #appealTable tbody tr td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0;
+                width: 50%;
+                padding-left: 15px;
+                font-weight: bold;
+                text-align: left;
             }
         }
+
     </style>
 </head>
 <body class="main-layout">

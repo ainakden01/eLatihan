@@ -376,42 +376,55 @@
         </div>
 
         <div class="main">
-            <h1>List of Applicants Who Made an Appeal</h1>
-            <table id="appealTable">
+            <h2>Status Rayuan</h2>
+            <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Full Name</th>
-                        <th>Email</th>
-                        <th>Application Status</th>
-                        <th>Appeal Reason</th>
-                        <th>Action</th>
+                        <th>Rayuan ID</th>
+                        <th>Application ID</th>
+                        <th>Location ID</th>
+                        <th>Status Rayuan</th>
+                        <th>Remarks</th>
+                        <th>Student ID</th>
+                        <th>User ID</th>
+                        <th>Actions</th> <!-- Added Actions header -->
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (!empty($applicants)): ?>
-                        <?php foreach ($applicants as $applicant): ?>
+                    <?php foreach ($appeals as $appeal): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($applicant['rayuan_id']); ?></td>
-                            <td><?php echo htmlspecialchars($applicant['application_id']); ?></td>
-                            <td><?php echo htmlspecialchars($applicant['id_lokasi']); ?></td>
-                            <td><?php echo htmlspecialchars($applicant['appeal_status']); ?></td>
-                            <td><?php echo htmlspecialchars($applicant['remarks']); ?></td>
+                            <td><?php echo htmlspecialchars($appeal['rayuan_id']); ?></td>
+                            <td><?php echo htmlspecialchars($appeal['application_id']); ?></td>
+                            <td><?php echo htmlspecialchars($appeal['id_lokasi']); ?></td>
+                            <td><?php echo htmlspecialchars($appeal['appeal_status']); ?></td>
+                            <td><?php echo htmlspecialchars($appeal['remarks']); ?></td>
+                            <td><?php echo htmlspecialchars($appeal['student_id']); ?></td>
+                            <td><?php echo htmlspecialchars($appeal['user_id']); ?></td>
                             <td>
-                                <form method="post">
-                                    <input type="hidden" name="applicant_id" value="<?php echo $applicant['rayuan_id']; ?>">
-                                    <button type="submit" name="action" value="approve">Approve</button>
-                                    <button type="submit" name="action" value="reject">Reject</button>
-                                </form>
+                                <?php 
+                                // Debugging Output
+                                // Uncomment the following line to debug output
+                                // echo "<pre>"; print_r($appeal); echo "</pre>"; 
+                                ?>
+                                <?php if ($appeal['appeal_status'] == 'Dalam Proses'): ?>
+                                    <form method="POST" action="admin_appeals.php" style="display:inline;">
+                                        <input type="hidden" name="rayuan_id" value="<?php echo $appeal['rayuan_id']; ?>">
+                                        <button type="submit" name="action" value="approve" class="btn btn-success">Approve</button>
+                                    </form>
+                                    <form method="POST" action="admin_appeals.php" style="display:inline;">
+                                        <input type="hidden" name="rayuan_id" value="<?php echo $appeal['rayuan_id']; ?>">
+                                        <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
+                                    </form>
+                                <?php else: ?>
+                                    <span><?php echo htmlspecialchars($appeal['appeal_status']); ?></span>
+                                <?php endif; ?>
                             </td>
                         </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr><td colspan="6">No appeals found.</td></tr>
-                    <?php endif; ?>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
+    </div>
 
         <script src="js/jquery.min.js"></script>
         <script src="js/popper.min.js"></script>
