@@ -251,7 +251,7 @@
             <ul>
                 <li><a href="admin_dashboard.php"><i class="fas fa-home"></i> Dashboard</a></li>
                 <li><a href="admin_senaraipemohon.php"><i class="fas fa-file-alt"></i> Senarai Permohonan</a></li>
-                <li><a href="admin_appeal_list.php"><i class="fas fa-address-book"></i> Senarai Rayuan</a></li>
+                <li><a href="admin_appeals.php"><i class="fas fa-address-book"></i> Senarai Rayuan</a></li>
                 <li><a href="utility.php"><i class="fas fa-wrench"></i> Utiliti</a></li>
                 <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Log Keluar</a></li>
             </ul>
