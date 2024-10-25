@@ -1,117 +1,78 @@
 <?php
-session_start();
-include 'db_connect.php'; 
+    session_start();
+    include 'db_connect.php'; 
 
-// Check if admin session exists
-if (!isset($_SESSION['admin_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
-// Fetch all colleges from the users table
-try {
-    $stmt = $pdo->query("SELECT DISTINCT college_uni FROM users ORDER BY college_uni ASC");
-    $colleges = $stmt->fetchAll(PDO::FETCH_COLUMN);
-} catch (PDOException $e) {
-    die('Database connection failed: ' . $e->getMessage());
-}
-
-// Initialize variables
-$selected_college = '';
-$application_ids = [];
-$selected_application_id = '';
-$application_details = [];
-
-// Fetch application IDs based on selected college
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['select_college'])) {
-    $selected_college = $_POST['college_uni'];
-
-    try {
-        $stmt = $pdo->prepare("SELECT ia.application_id
-                               FROM internship_applications ia
-                               INNER JOIN users u ON ia.user_id = u.user_id
-                               WHERE u.college_uni = :college_uni");
-        $stmt->bindParam(':college_uni', $selected_college);
-        $stmt->execute();
-        $application_ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
-    } catch (PDOException $e) {
-        die('Database connection failed: ' . $e->getMessage());
+    // Check if admin session exists
+    if (!isset($_SESSION['admin_id'])) {
+        header("Location: login.php");
+        exit();
     }
-}
 
-// Fetch application details based on selected application ID
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['select_application'])) {
-    $selected_application_id = $_POST['application_id'];
-
+    // Fetch all new applications
     try {
-        $stmt = $pdo->prepare("SELECT ia.application_id, ia.borang_sokongan, ia.start_date, ia.end_date, s.student_id, s.student_name, s.student_matrics, s.student_ic, s.kursus, n.negeri, l.lokasi, s.status
-                               FROM internship_applications ia
-                               INNER JOIN students s ON ia.application_id = s.application_id
-                               INNER JOIN tblnegeri n ON s.negeri_id = n.id_negeri
-                               INNER JOIN tbllokasi l ON s.lokasi_id = l.id_lokasi
-                               WHERE ia.application_id = :application_id");
-        $stmt->bindParam(':application_id', $selected_application_id);
-        $stmt->execute();
+        $stmt = $pdo->query("
+            SELECT ia.application_id, ia.borang_sokongan, ia.start_date, ia.end_date, s.student_id, s.student_name, s.student_matrics, s.student_ic, s.kursus, n.negeri, l.lokasi, s.status
+            FROM internship_applications ia
+            INNER JOIN students s ON ia.application_id = s.application_id
+            INNER JOIN tblnegeri n ON s.negeri_id = n.id_negeri
+            INNER JOIN tbllokasi l ON s.lokasi_id = l.id_lokasi
+            WHERE s.status = 'Sedang diproses'
+            ORDER BY ia.application_id DESC
+        ");
         $application_details = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         die('Database connection failed: ' . $e->getMessage());
     }
-}
 
-// Handle status update
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_status'])) {
-    $student_id = $_POST['student_id'];
-    $new_status = $_POST['status'];
-    $selected_college = $_POST['college_uni']; // Retain the selected college
-    $selected_application_id = $_POST['application_id']; // Retain the selected application ID
+    // Handle status update
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_status'])) {
+        $student_id = $_POST['student_id'];
+        $new_status = $_POST['status'];
 
-    try {
-        $stmt = $pdo->prepare("UPDATE students SET status = :status WHERE student_id = :student_id");
-        $stmt->bindParam(':status', $new_status);
-        $stmt->bindParam(':student_id', $student_id);
-        $stmt->execute();
+        try {
+            $stmt = $pdo->prepare("UPDATE students SET status = :status WHERE student_id = :student_id");
+            $stmt->bindParam(':status', $new_status);
+            $stmt->bindParam(':student_id', $student_id);
+            $stmt->execute();
 
-        // Re-fetch the application details to display updated status
-        $stmt = $pdo->prepare("SELECT ia.application_id, ia.borang_sokongan, ia.start_date, ia.end_date, s.student_id, s.student_name, s.student_matrics, s.student_ic, s.kursus, n.negeri, l.lokasi, s.status
-                               FROM internship_applications ia
-                               INNER JOIN students s ON ia.application_id = s.application_id
-                               INNER JOIN tblnegeri n ON s.negeri_id = n.id_negeri
-                               INNER JOIN tbllokasi l ON s.lokasi_id = l.id_lokasi
-                               WHERE ia.application_id = :application_id");
-        $stmt->bindParam(':application_id', $selected_application_id);
-        $stmt->execute();
-        $application_details = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    } catch (PDOException $e) {
-        die('Database connection failed: ' . $e->getMessage());
+            // Re-fetch the application details to display updated status
+            $stmt = $pdo->query("
+                SELECT ia.application_id, ia.borang_sokongan, ia.start_date, ia.end_date, s.student_id, s.student_name, s.student_matrics, s.student_ic, s.kursus, n.negeri, l.lokasi, s.status
+                FROM internship_applications ia
+                INNER JOIN students s ON ia.application_id = s.application_id
+                INNER JOIN tblnegeri n ON s.negeri_id = n.id_negeri
+                INNER JOIN tbllokasi l ON s.lokasi_id = l.id_lokasi
+                WHERE s.status = 'Sedang diproses'
+                ORDER BY ia.application_id DESC
+            ");
+            $application_details = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die('Database connection failed: ' . $e->getMessage());
+        }
     }
-}
-// Handle bulk status update to "Lulus"
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_all'])) {
-    $selected_college = $_POST['college_uni']; // Retain the selected college
-    $selected_application_id = $_POST['application_id']; // Retain the selected application ID
 
-    try {
-        // Update all students' status to "Lulus"
-        $stmt = $pdo->prepare("UPDATE students SET status = 'Lulus' WHERE application_id = :application_id");
-        $stmt->bindParam(':application_id', $selected_application_id);
-        $stmt->execute();
+    // Handle bulk status update to "Lulus"
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_all'])) {
+        try {
+            // Update all students' status to "Lulus"
+            $stmt = $pdo->prepare("UPDATE students SET status = 'Lulus' WHERE status = 'Sedang diproses'");
+            $stmt->execute();
 
-        // Re-fetch the application details to display updated status
-        $stmt = $pdo->prepare("SELECT ia.application_id, ia.borang_sokongan, ia.start_date, ia.end_date, s.student_id, s.student_name, s.student_matrics, s.student_ic, s.kursus, n.negeri, l.lokasi, s.status
-                               FROM internship_applications ia
-                               INNER JOIN students s ON ia.application_id = s.application_id
-                               INNER JOIN tblnegeri n ON s.negeri_id = n.id_negeri
-                               INNER JOIN tbllokasi l ON s.lokasi_id = l.id_lokasi
-                               WHERE ia.application_id = :application_id");
-        $stmt->bindParam(':application_id', $selected_application_id);
-        $stmt->execute();
-        $application_details = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    } catch (PDOException $e) {
-        die('Database connection failed: ' . $e->getMessage());
+            // Re-fetch the application details to display updated status
+            $stmt = $pdo->query("
+                SELECT ia.application_id, ia.borang_sokongan, ia.start_date, ia.end_date, s.student_id, s.student_name, s.student_matrics, s.student_ic, s.kursus, n.negeri, l.lokasi, s.status
+                FROM internship_applications ia
+                INNER JOIN students s ON ia.application_id = s.application_id
+                INNER JOIN tblnegeri n ON s.negeri_id = n.id_negeri
+                INNER JOIN tbllokasi l ON s.lokasi_id = l.id_lokasi
+                WHERE s.status = 'Sedang diproses'
+                ORDER BY ia.application_id DESC
+            ");
+            $application_details = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die('Database connection failed: ' . $e->getMessage());
+        }
     }
-}
 ?>
 
 
@@ -342,74 +303,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_all'])) {
             <br><br><br>
             <h2 style="font-size: 40px;"><strong>Senarai Permohonan</strong></h2>
             
-            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                <div class="form-group">
-                    <label for="college_uni">Pilih Kolej:</label>
-                    <select name="college_uni" id="college_uni" class="form-control">
-                        <option value="">Pilih Kolej</option>
-                        <?php foreach ($colleges as $college) : ?>
-                            <option value="<?php echo htmlspecialchars($college); ?>" <?php if ($college == $selected_college) echo "selected"; ?>><?php echo htmlspecialchars($college); ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <button type="submit" name="select_college" class="btn btn-primary">Semak Permohonan</button>
-            </form>
-
-            <?php if (!empty($application_ids)) : ?>
-                <hr>
-                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <input type="hidden" name="college_uni" value="<?php echo htmlspecialchars($selected_college); ?>">
-                    <div class="form-group">
-                        <label for="application_id">Pilih ID Permohonan:</label>
-                        <select name="application_id" id="application_id" class="form-control">
-                            <option value="">Pilih ID Permohonan</option>
-                            <?php foreach ($application_ids as $app_id) : ?>
-                                <option value="<?php echo htmlspecialchars($app_id); ?>" <?php if ($app_id == $selected_application_id) echo "selected"; ?>><?php echo htmlspecialchars($app_id); ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <button type="submit" name="select_application" class="btn btn-primary">Lihat Butiran</button>
-                </form>
-            <?php endif; ?>
-                <?php if (!empty($application_details)) : ?>
-                    <hr>
-                    <div class="row">
-                        <!-- Display ID Permohonan -->
-                        <div class="form-group col-md-4">
-                            <label for="application_id"><b>ID Permohonan:</b></label>
-                            <span><?php echo htmlspecialchars($application_details[0]['application_id']); ?></span>
-                        </div>
-                        <!-- Display Tarikh Mula dan Tamat -->
-                        <div class="form-group col-md-4">
-                            <label for="start_date"><b>Tarikh Mula:</b></label>
-                            <span><?php echo htmlspecialchars($application_details[0]['start_date']); ?></span>
-                            </div>
-                        <div class="form-group col-md-4">
-                            <label for="end_date"><b>Tarikh Tamat:</b></label>
-                            <span><?php echo htmlspecialchars($application_details[0]['end_date']); ?></span>
-                        </div>
-                        <!-- Display Borang Sokongan with Download Icon -->
-                        <div class="form-group col-md-4">
-                            <label for="borang_sokongan"><b>Borang Sokongan:</b></label>
-                            <span>
-                                <?php if (!empty($application_details[0]['borang_sokongan'])) : ?>
-                                    <a href="uploads/<?php echo htmlspecialchars($application_details[0]['borang_sokongan']); ?>" download>
-                                        <?php echo htmlspecialchars($application_details[0]['borang_sokongan']); ?>&emsp;<i class="fas fa-download"></i>
-                                    </a>
-                                <?php else : ?>
-                                    No file available
-                                <?php endif; ?>
-                            </span>
-                        </div>
-                    </div>
-                <?php endif; ?>
-
             <?php if (!empty($application_details)) : ?>
                 <hr>
                 <!-- Add the "Kemaskini Semua" button -->
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <input type="hidden" name="college_uni" value="<?php echo htmlspecialchars($selected_college); ?>">
-                    <input type="hidden" name="application_id" value="<?php echo htmlspecialchars($selected_application_id); ?>">
                     <button type="submit" name="update_all" class="btn btn-warning">Kemaskini Semua "Lulus"</button>
                 </form>
                 <table class="table table-bordered">
@@ -437,25 +334,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_all'])) {
                                 <td><?php echo htmlspecialchars($student['status']); ?></td>
                                 <td>
                                     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                                        <input type="hidden" name="college_uni" value="<?php echo htmlspecialchars($selected_college); ?>">
-                                        <input type="hidden" name="application_id" value="<?php echo htmlspecialchars($selected_application_id); ?>">
                                         <input type="hidden" name="student_id" value="<?php echo htmlspecialchars($student['student_id']); ?>">
                                         <select name="status" class="form-control">
                                             <option value="Sedang diproses" <?php if ($student['status'] == 'Sedang diproses') echo "selected"; ?>>Sedang diproses</option>
                                             <option value="Lulus" <?php if ($student['status'] == 'Lulus') echo "selected"; ?>>Lulus</option>
-                                            <option value="Tidak Lulus" <?php if ($student['status'] == 'Tidak Lulus') echo "selected"; ?>>Tidak Lulus</option>
+                                            <option value="Ditolak" <?php if ($student['status'] == 'Ditolak') echo "selected"; ?>>Ditolak</option>
                                         </select>
-                                        <button type="submit" name="update_status" class="btn btn-success btn-sm mt-2">Kemaskini</button>
+                                        <button type="submit" name="update_status" class="btn btn-primary">Kemaskini</button>
                                     </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+
+            <?php else : ?>
+                <p>Tiada permohonan baru buat masa ini.</p>
             <?php endif; ?>
+            
         </div>
     </div>
-
+    
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
