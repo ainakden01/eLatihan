@@ -51,7 +51,7 @@
                 width: 60%; /* Adjust this to your desired infographic width */
                 margin: 20px auto; /* Center the infographic box */
                 text-align: center;
-                position: absolute; /* Change from fixed to absolute */
+                position: fixed; /* Change from fixed to absolute */
                 top: 70%; /* Move it to the middle of the page vertically */
                 left: 50%; /* Move it to the middle of the page horizontally */
                 transform: translate(-50%, -50%); /* Center it both horizontally and vertically */

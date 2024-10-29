@@ -29,7 +29,7 @@
     }
 
     // Query for rejected users
-    $query_rejected = "SELECT * FROM users WHERE status = 'rejected'";
+    $query_rejected = "SELECT * FROM requests WHERE status = 'rejected'";
     $stmt_rejected = $conn->prepare($query_rejected);
     $stmt_rejected->execute();
     $result_rejected = $stmt_rejected->fetchAll(PDO::FETCH_ASSOC);
