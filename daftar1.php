@@ -269,6 +269,14 @@ include 'db_connect.php';
                                  <option value="">Pilih Lokasi</option>
                               </select>
                            </div>
+                           <div class="form-row">
+                              <label for="country">Negara:</label>
+                              <input type="text" class="form-row" id="country" name="country[]" placeholder="Masukkan Negara" required>
+                           </div>
+                           
+
+                         
+                  
                               <!-- Dynamic Forms Container -->
                               <div id="dynamic-forms"></div>
 
@@ -283,13 +291,14 @@ include 'db_connect.php';
                               <table class="table table-striped" id="student-table">
                                     <thead>
                                        <tr>
-                                          <th>#</th> <!-- Numbering Column -->
+                                          <th>Bilangan</th> <!-- Numbering Column -->
                                           <th>Nama Pelajar</th>
                                           <th>No. Matriks</th>
                                           <th>No. Pengenalan Diri</th>
                                           <th>Kursus</th>
                                           <th>Negeri</th>
                                           <th>Lokasi</th>
+                                          <th>Negara</th>
                                           <th></th>
                                        </tr>
                                     </thead>
@@ -312,7 +321,9 @@ include 'db_connect.php';
                                  const lokasiSelect = document.querySelector('select[name="id_lokasi[]"]');
                                  const lokasi = lokasiSelect.options[lokasiSelect.selectedIndex].text;
 
-                                 if (studentName && matricNo && studentIC && kursus && negeri && lokasi) {
+                                 const country = document.querySelector('input[name="country[]"]').value; // Capture Negara
+
+                                 if (studentName && matricNo && studentIC && kursus && negeri && lokasi && country) {
                                     studentCount++;
                                     const tableBody = document.querySelector('#student-table tbody');
                                     const rowHTML = `
@@ -324,6 +335,7 @@ include 'db_connect.php';
                                           <td>${kursus}</td>
                                           <td>${negeri}</td>
                                           <td>${lokasi}</td>
+                                          <td>${country}</td>
                                           <td><button type="button" onclick="removeStudent(this)"><i class="fas fa-trash"></i></button></td>
                                        </tr>
                                     `;
@@ -335,6 +347,7 @@ include 'db_connect.php';
                                     document.querySelector('input[name="kursus[]"]').value = '';
                                     document.querySelector('select[name="id_negeri[]"]').value = '';
                                     document.querySelector('select[name="id_lokasi[]"]').value = '';
+                                    document.querySelector('input[name="country[]"]').value = ''; // Reset Negara field
                                  } else {
                                     alert('Please fill all fields before adding.');
                                  }

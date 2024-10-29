@@ -90,9 +90,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                         $kursus = htmlspecialchars($_POST['kursus'][$i]);
                         $id_negeri = htmlspecialchars($_POST['id_negeri'][$i]);
                         $id_lokasi = htmlspecialchars($_POST['id_lokasi'][$i]);
+                        $country = htmlspecialchars($_POST['country'][$i]); // Capture the Negara (Country) field
 
-                        $stmt = $pdo->prepare("INSERT INTO students (student_name, student_matrics, student_ic, kursus, negeri_id, lokasi_id, application_id) 
-                                               VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+
+                        $stmt = $pdo->prepare("INSERT INTO students (student_name, student_matrics, student_ic, kursus, negeri_id, lokasi_id, application_id, `country`) 
+                                               VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
                         $stmt->execute([
                             $student_name,
                             $student_matrics,
@@ -100,7 +103,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                             $kursus,
                             $id_negeri,
                             $id_lokasi,
-                            $next_application_id
+                            $next_application_id,
+                            $country 
                         ]);
                     }
                 }
