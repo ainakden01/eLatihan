@@ -7,7 +7,7 @@ $application_id = $_GET['application_id'];
 
 // Fetch application and student details
 try {
-    $stmt = $pdo->prepare("SELECT ia.application_id, ia.borang_sokongan, ia.start_date, ia.end_date, s.student_name, s.student_matrics, s.student_ic, s.kursus, n.negeri, l.lokasi, s.status
+    $stmt = $pdo->prepare("SELECT ia.application_id, ia.borang_sokongan, ia.start_date, ia.end_date, s.student_name, s.student_matrics, s.student_ic, s.kursus, n.negeri, l.lokasi, s.status, s.country
                            FROM internship_applications ia
                            INNER JOIN students s ON ia.application_id = s.application_id
                            INNER JOIN tblnegeri n ON s.negeri_id = n.id_negeri
@@ -26,7 +26,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-LATIHAN INDUSTRI(UNDANG-UNDANG)</title>
+    <title>e-Latihan Industri(Undang-Undang)</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -81,56 +81,58 @@ try {
     <br>
 
     <?php if (!empty($application_details)) : ?>
-        <h2><u>LAPORAN PERMOHONAN</u></h2>
-        <p><strong>PERMOHONAN ID:</strong> <?php echo strtoupper(htmlspecialchars($application_details[0]['application_id'])); ?></p>
-        <p><strong>BORANG SOKONGAN:</strong> <?php echo strtoupper(htmlspecialchars($application_details[0]['borang_sokongan'])); ?></p>
-        <p><strong>TARIKH MULA:</strong> <?php echo strtoupper(htmlspecialchars($application_details[0]['start_date'])); ?></p>
-        <p><strong>TARIKH TAMAT:</strong> <?php echo strtoupper(htmlspecialchars($application_details[0]['end_date'])); ?></p>
+        <h2><u>Laporan Permohonan</u></h2>
+        <p><strong>Permohonan ID:</strong> <?php echo htmlspecialchars($application_details[0]['application_id']); ?></p>
+        <p><strong>Borang Sokongan:</strong> <?php echo htmlspecialchars($application_details[0]['borang_sokongan']); ?></p>
+        <p><strong>Tarikh Mula:</strong> <?php echo htmlspecialchars($application_details[0]['start_date']); ?></p>
+        <p><strong>Tarikh Tamat:</strong> <?php echo htmlspecialchars($application_details[0]['end_date']); ?></p>
 
-        <h2>BUTIRAN PELAJAR</h2>
+        <h2>Butiran Pelajar</h2>
         <table>
             <thead>
                 <tr>
-                    <th>NAMA PELAJAR</th>
-                    <th>NO. MATRIKS</th>
-                    <th>NO. PENGENALAN DIRI</th>
-                    <th>KURSUS/PROGRAM</th>
-                    <th>NEGERI</th>
-                    <th>LOKASI MAHKAMAH</th>
-                    <th>STATUS</th>
+                    <th>Nama Pelajar</th>
+                    <th>No. Matriks</th>
+                    <th>No Pengenalan Diri</th>
+                    <th>Kursus/Program</th>
+                    <th>Negeri</th>
+                    <th>Lokasi Mahkamah</th>
+                    <th>Negara</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($application_details as $detail) : ?>
                     <tr>
-                        <td><?php echo strtoupper(htmlspecialchars($detail['student_name'])); ?></td>
-                        <td><?php echo strtoupper(htmlspecialchars($detail['student_matrics'])); ?></td>
-                        <td><?php echo strtoupper(htmlspecialchars($detail['student_ic'])); ?></td>
-                        <td><?php echo strtoupper(htmlspecialchars($detail['kursus'])); ?></td>
-                        <td><?php echo strtoupper(htmlspecialchars($detail['negeri'])); ?></td>
-                        <td><?php echo strtoupper(htmlspecialchars($detail['lokasi'])); ?></td>
-                        <td><?php echo strtoupper(htmlspecialchars($detail['status'])); ?></td>
+                        <td><?php echo htmlspecialchars($detail['student_name']); ?></td>
+                        <td><?php echo htmlspecialchars($detail['student_matrics']); ?></td>
+                        <td><?php echo htmlspecialchars($detail['student_ic']); ?></td>
+                        <td><?php echo htmlspecialchars($detail['kursus']); ?></td>
+                        <td><?php echo htmlspecialchars($detail['negeri']); ?></td>
+                        <td><?php echo htmlspecialchars($detail['lokasi']); ?></td>
+                        <td><?php echo htmlspecialchars($detail['country']); ?></td>
+                        <td><?php echo htmlspecialchars($detail['status']); ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     <?php else : ?>
-        <p>NO DETAILS FOUND FOR THE SELECTED APPLICATION ID.</p>
+        <p>No details found for the selected application ID.</p>
     <?php endif; ?>
 
     <!-- Form to generate and download the PDF -->
     <form method="post" action="export_pdf.php" target="_blank">
-        <input type="hidden" name="application_id" value="<?php echo strtoupper(htmlspecialchars($application_id)); ?>">
-        <button type="submit" class="btn btn-success">EKSPORT KE PDF</button>
+        <input type="hidden" name="application_id" value="<?php echo htmlspecialchars($application_id); ?>">
+        <button type="submit" class="btn btn-success">Eksport ke PDF</button>
     </form>
     <!-- Form to export to Excel -->
     <form method="post" action="export_excel.php" target="_blank">
-        <input type="hidden" name="application_id" value="<?php echo strtoupper(htmlspecialchars($application_id)); ?>">
-        <button type="submit" class="btn btn-primary no-print">EKSPORT KE EXCEL</button>
+        <input type="hidden" name="application_id" value="<?php echo htmlspecialchars($application_id); ?>">
+        <button type="submit" class="btn btn-primary no-print">Eksport ke Excel</button>
     </form>
     <br>
     <form method="post" action="display.php" target="_blank">
-        <button type="submit" class="btn btn-success">HOME</button>
+        <button type="submit" class="btn btn-success">Home</button>
     </form>
 </div>
 
