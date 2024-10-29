@@ -6,7 +6,7 @@ include 'db_connect.php';
 $application_id = $_POST['application_id'] ?? null;
 
 if (!$application_id) {
-    die("Invalid request: application ID is missing.");
+    die("INVALID REQUEST: APPLICATION ID IS MISSING.");
 }
 
 try {
@@ -22,7 +22,7 @@ try {
     $stmt->execute();
     $application_details = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die('Database connection failed: ' . $e->getMessage());
+    die('DATABASE CONNECTION FAILED: ' . $e->getMessage());
 }
 
 if (!empty($application_details)) {
@@ -44,55 +44,54 @@ if (!empty($application_details)) {
 
     // Application Details Section
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(40, 10, 'Application ID:');
+    $pdf->Cell(50, 10, 'APPLICATION ID:');
     $pdf->SetFont('Arial', '', 12);
-    $pdf->Cell(0, 10, $application_details[0]['application_id']);
+    $pdf->Cell(0, 10, strtoupper($application_details[0]['application_id']));
     $pdf->Ln();
 
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(40, 10, 'Borang Sokongan:');
+    $pdf->Cell(50, 10, 'BORANG SOKONGAN:');
     $pdf->SetFont('Arial', '', 12);
-    $pdf->Cell(0, 10, $application_details[0]['borang_sokongan']);
+    $pdf->Cell(0, 10, strtoupper($application_details[0]['borang_sokongan']));
     $pdf->Ln();
 
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(40, 10, 'Tarikh Mula:');
+    $pdf->Cell(50, 10, 'TARIKH MULA:');
     $pdf->SetFont('Arial', '', 12);
-    $pdf->Cell(0, 10, $application_details[0]['start_date']);
+    $pdf->Cell(0, 10, strtoupper($application_details[0]['start_date']));
     $pdf->Ln();
 
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(40, 10, 'Tarikh Tamat:');
+    $pdf->Cell(50, 10, 'TARIKH TAMAT:');
     $pdf->SetFont('Arial', '', 12);
-    $pdf->Cell(0, 10, $application_details[0]['end_date']);
+    $pdf->Cell(0, 10, strtoupper($application_details[0]['end_date']));
     $pdf->Ln(20);
 
     // Table Header
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(35, 10, 'Nama Pelajar', 1);
-    $pdf->Cell(35, 10, 'No. Matriks', 1); // Increased width for better alignment
-    $pdf->Cell(45, 10, 'No Pengenalan Diri', 1); // Adjusted width
-    $pdf->Cell(35, 10, 'Kursus', 1);
-    $pdf->Cell(45, 10, 'Lokasi Mahkamah', 1); // Increased width for clarity
-    $pdf->Cell(30, 10, 'Negara', 1);
+    $pdf->Cell(35, 10, 'NAMA PELAJAR', 1);
+    $pdf->Cell(35, 10, 'NO. MATRIKS', 1);
+    $pdf->Cell(50, 10, 'NO PENGENALAN DIRI', 1);
+    $pdf->Cell(35, 10, 'KURSUS', 1);
+    $pdf->Cell(45, 10, 'LOKASI MAHKAMAH', 1);
+    $pdf->Cell(30, 10, 'NEGARA', 1);
     $pdf->Ln();
 
     // Table Content
     $pdf->SetFont('Arial', '', 12);
     foreach ($application_details as $detail) {
-    $pdf->Cell(35, 10, $detail['student_name'], 1);
-    $pdf->Cell(35, 10, $detail['student_matrics'], 1); // Adjusted width
-    $pdf->Cell(45, 10, $detail['student_ic'], 1); // Adjusted width
-    $pdf->Cell(35, 10, $detail['kursus'], 1);
-    $pdf->Cell(45, 10, $detail['lokasi'], 1); // Increased width
-    $pdf->Cell(30, 10, $detail['country'], 1);
-    $pdf->Ln();
-}
-
+        $pdf->Cell(35, 10, strtoupper($detail['student_name']), 1);
+        $pdf->Cell(35, 10, strtoupper($detail['student_matrics']), 1);
+        $pdf->Cell(50, 10, strtoupper($detail['student_ic']), 1);
+        $pdf->Cell(35, 10, strtoupper($detail['kursus']), 1);
+        $pdf->Cell(45, 10, strtoupper($detail['lokasi']), 1);
+        $pdf->Cell(30, 10, strtoupper($detail['country']), 1);
+        $pdf->Ln();
+    }
 
     // Output the PDF
-    $pdf->Output('D', 'Laporan_Permohonan_' . $application_id . '.pdf');
+    $pdf->Output('D', 'LAPORAN_PERMOHONAN_' . strtoupper($application_id) . '.pdf');
 } else {
-    echo "No details found for the selected application ID.";
+    echo "NO DETAILS FOUND FOR THE SELECTED APPLICATION ID.";
 }
 ?>

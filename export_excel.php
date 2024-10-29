@@ -5,7 +5,7 @@ include 'db_connect.php';
 $application_id = $_POST['application_id'] ?? null;
 
 if (!$application_id) {
-    die("Invalid request: application ID is missing.");
+    die("INVALID REQUEST: APPLICATION ID IS MISSING.");
 }
 
 try {
@@ -21,12 +21,12 @@ try {
     $stmt->execute();
     $application_details = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die('Database connection failed: ' . $e->getMessage());
+    die('DATABASE CONNECTION FAILED: ' . strtoupper($e->getMessage()));
 }
 
 if (!empty($application_details)) {
     header('Content-Type: application/vnd.ms-excel');
-    header('Content-Disposition: attachment;filename="application_report_' . $application_id . '.xls"');
+    header('Content-Disposition: attachment;filename="application_report_' . strtoupper($application_id) . '.xls"');
     header('Cache-Control: max-age=0');
 
     echo "<html>";
@@ -34,41 +34,41 @@ if (!empty($application_details)) {
     echo "<body>";
 
     echo "<div style='text-align:center; margin-bottom:20px;'>";
-    echo "<img src='images/gov.png' style='width:80px;' alt='Government Logo'><br>";
-    echo "<h2>Pejabat Ketua Pendaftar Mahkamah Persekutuan Malaysia</h2>";
-    echo "<h3>Laporan Permohonan</h3>";
+    echo "<img src='images/gov.png' style='width:80px;' alt='GOVERNMENT LOGO'><br>";
+    echo "<h2>" . strtoupper("Pejabat Ketua Pendaftar Mahkamah Persekutuan Malaysia") . "</h2>";
+    echo "<h3>" . strtoupper("Laporan Permohonan") . "</h3>";
     echo "</div>";
 
     echo "<table border='1' style='border-collapse:collapse; width:100%; margin-bottom:20px;'>";
-    echo "<tr><th>Application ID</th><td>" . htmlspecialchars($application_details[0]['application_id']) . "</td></tr>";
-    echo "<tr><th>Borang Sokongan</th><td>" . htmlspecialchars($application_details[0]['borang_sokongan']) . "</td></tr>";
-    echo "<tr><th>Tarikh Mula</th><td>" . htmlspecialchars($application_details[0]['start_date']) . "</td></tr>";
-    echo "<tr><th>Tarikh Tamat</th><td>" . htmlspecialchars($application_details[0]['end_date']) . "</td></tr>";
+    echo "<tr><th>" . strtoupper("Application ID") . "</th><td>" . strtoupper(htmlspecialchars($application_details[0]['application_id'])) . "</td></tr>";
+    echo "<tr><th>" . strtoupper("Borang Sokongan") . "</th><td>" . strtoupper(htmlspecialchars($application_details[0]['borang_sokongan'])) . "</td></tr>";
+    echo "<tr><th>" . strtoupper("Tarikh Mula") . "</th><td>" . strtoupper(htmlspecialchars($application_details[0]['start_date'])) . "</td></tr>";
+    echo "<tr><th>" . strtoupper("Tarikh Tamat") . "</th><td>" . strtoupper(htmlspecialchars($application_details[0]['end_date'])) . "</td></tr>";
     echo "</table>";
 
     echo "<table border='1' style='border-collapse:collapse; width:100%;'>";
     echo "<thead>";
     echo "<tr>
-            <th>Nama Pelajar</th>
-            <th>No. Matriks</th>
-            <th>IC Pelajar</th>
-            <th>Kursus</th>
-            <th>Negeri</th>
-            <th>Lokasi Mahkamah</th>
-            <th>Negara</th>
+            <th>" . strtoupper("Nama Pelajar") . "</th>
+            <th>" . strtoupper("No. Matriks") . "</th>
+            <th>" . strtoupper("IC Pelajar") . "</th>
+            <th>" . strtoupper("Kursus") . "</th>
+            <th>" . strtoupper("Negeri") . "</th>
+            <th>" . strtoupper("Lokasi Mahkamah") . "</th>
+            <th>" . strtoupper("Negara") . "</th>
           </tr>";
     echo "</thead>";
     echo "<tbody>";
 
     foreach ($application_details as $detail) {
         echo "<tr>
-                <td>" . htmlspecialchars($detail['student_name']) . "</td>
-                <td>" . htmlspecialchars($detail['student_matrics']) . "</td>
-                <td>" . htmlspecialchars($detail['student_ic']) . "</td>
-                <td>" . htmlspecialchars($detail['kursus']) . "</td>
-                <td>" . htmlspecialchars($detail['negeri']) . "</td>
-                <td>" . htmlspecialchars($detail['lokasi']) . "</td>
-                <td>" . htmlspecialchars($detail['country']) . "</td>
+                <td>" . strtoupper(htmlspecialchars($detail['student_name'])) . "</td>
+                <td>" . strtoupper(htmlspecialchars($detail['student_matrics'])) . "</td>
+                <td>" . strtoupper(htmlspecialchars($detail['student_ic'])) . "</td>
+                <td>" . strtoupper(htmlspecialchars($detail['kursus'])) . "</td>
+                <td>" . strtoupper(htmlspecialchars($detail['negeri'])) . "</td>
+                <td>" . strtoupper(htmlspecialchars($detail['lokasi'])) . "</td>
+                <td>" . strtoupper(htmlspecialchars($detail['country'])) . "</td>
               </tr>";
     }
 
@@ -78,6 +78,6 @@ if (!empty($application_details)) {
     echo "</body>";
     echo "</html>";
 } else {
-    echo "No details found for the selected application ID.";
+    echo strtoupper("No details found for the selected application ID.");
 }
 ?>
