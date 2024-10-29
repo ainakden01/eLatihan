@@ -379,6 +379,7 @@
                         </div>
                         <div class="modal-body">
                             <input type="hidden" name="user_id" id="editUserId">
+                            <!--
                             <div class="form-group">
                                 <label for="editCollegeUni">Institusi</label>
                                 <input type="text" class="form-control" name="college_uni" id="editCollegeUni" required>
@@ -387,6 +388,7 @@
                                 <label for="editEmail">Email</label>
                                 <input type="email" class="form-control" name="email" id="editEmail" required>
                             </div>
+                            -->
                             <div class="form-group">
                                 <label for="editPhone">No Telefon</label>
                                 <input type="text" class="form-control" name="no_phone" id="editPhone" required>

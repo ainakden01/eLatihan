@@ -8,8 +8,53 @@
         exit();
     }
 
+    // Define the number of applications per page
+    $limit = 10;
+
+    // Get the current page number from the query string (default to 1 if not set)
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    if ($page < 1)
+    {
+        $page = 1;
+    }
+
+    // Calculate the offset
+    $offset = ($page - 1) * $limit;
+
+    // Fetch the total number of applications to calculate total pages
+    $total_stmt = $pdo->query("
+        SELECT COUNT(*) FROM internship_applications ia
+        INNER JOIN students s ON ia.application_id = s.application_id
+        WHERE s.status = 'Sedang diproses'
+    ");
+    $total_applications = $total_stmt->fetchColumn();
+    $total_pages = ceil($total_applications / $limit);
+
+    // Fetch applications for the current page
+    try
+    {
+        $stmt = $pdo->prepare("
+            SELECT ia.application_id, ia.borang_sokongan, ia.start_date, ia.end_date, s.student_id, s.student_name, s.student_matrics, s.student_ic, s.kursus, n.negeri, l.lokasi, s.status
+            FROM internship_applications ia
+            INNER JOIN students s ON ia.application_id = s.application_id
+            INNER JOIN tblnegeri n ON s.negeri_id = n.id_negeri
+            INNER JOIN tbllokasi l ON s.lokasi_id = l.id_lokasi
+            WHERE s.status = 'Sedang diproses'
+            ORDER BY ia.application_id DESC
+            LIMIT :limit OFFSET :offset
+        ");
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        $application_details = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch (PDOException $e)
+    {
+        die('Database connection failed: ' . $e->getMessage());
+    }
+
     // Fetch all new applications
-    try {
+    /*try {
         $stmt = $pdo->query("
             SELECT ia.application_id, ia.borang_sokongan, ia.start_date, ia.end_date, s.student_id, s.student_name, s.student_matrics, s.student_ic, s.kursus, n.negeri, l.lokasi, s.status
             FROM internship_applications ia
@@ -22,7 +67,7 @@
         $application_details = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         die('Database connection failed: ' . $e->getMessage());
-    }
+    }*/
 
     // Handle status update
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_status'])) {
@@ -264,6 +309,42 @@
                 font-size: 36px;
                 font-weight: bold;
             }  
+
+            /* ******************PAGENATION******************** */
+            .pagination
+            {
+                display: flex;
+                justify-content: center;
+                list-style: none;
+                padding: 0;
+            }
+
+            .pagination li
+            {
+                margin: 0 5px;
+            }
+
+            .pagination li a
+            {
+                color: #007bff;
+                text-decoration: none;
+                padding: 8px 12px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+            .pagination li a:hover
+            {
+                background-color: #007bff;
+                color: white;
+            }
+
+            .pagination .active a
+            {
+                background-color: #007bff;
+                color: white;
+                border-color: #007bff;
+            }
         </style>
     </head>
     
@@ -348,6 +429,15 @@
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+
+                    <!-- Pagination Links -->
+                    <ul class="pagination">
+                        <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
+                            <li class="<?php echo $i == $page ? 'active' : ''; ?>">
+                                <a href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                            </li>
+                        <?php endfor; ?>
+                    </ul>
 
                 <?php else : ?>
                     <p>Tiada permohonan baru buat masa ini.</p>
