@@ -34,7 +34,7 @@
     try
     {
         $stmt = $pdo->prepare("
-            SELECT ia.application_id, ia.borang_sokongan, ia.start_date, ia.end_date, s.student_id, s.student_name, s.student_matrics, s.student_ic, s.kursus, n.negeri, l.lokasi, s.status
+            SELECT ia.application_id, ia.borang_sokongan, ia.start_date, ia.end_date, s.student_id, s.student_name, s.student_matrics, s.student_ic, s.kursus, n.negeri, l.lokasi, s.country, s.status
             FROM internship_applications ia
             INNER JOIN students s ON ia.application_id = s.application_id
             INNER JOIN tblnegeri n ON s.negeri_id = n.id_negeri
@@ -400,6 +400,7 @@
                                 <th>Kursus</th>
                                 <th>Negeri</th>
                                 <th>Lokasi</th>
+                                <th>Negara</th>
                                 <th>Status</th>
                                 <th>Kemaskini Status</th>
                             </tr>
@@ -413,6 +414,7 @@
                                     <td><?php echo htmlspecialchars($student['kursus']); ?></td>
                                     <td><?php echo htmlspecialchars($student['negeri']); ?></td>
                                     <td><?php echo htmlspecialchars($student['lokasi']); ?></td>
+                                    <td><?php echo htmlspecialchars($student['country']); ?></td>
                                     <td><?php echo htmlspecialchars($student['status']); ?></td>
                                     <td>
                                         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
