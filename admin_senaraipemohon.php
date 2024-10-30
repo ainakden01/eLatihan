@@ -82,7 +82,7 @@
 
             // Re-fetch the application details to display updated status
             $stmt = $pdo->query("
-                SELECT ia.application_id, ia.borang_sokongan, ia.start_date, ia.end_date, s.student_id, s.student_name, s.student_matrics, s.student_ic, s.kursus, n.negeri, l.lokasi, s.status
+                SELECT ia.application_id, ia.borang_sokongan, ia.start_date, ia.end_date, s.student_id, s.student_name, s.student_matrics, s.student_ic, s.kursus, n.negeri, l.lokasi, s.country,s.status
                 FROM internship_applications ia
                 INNER JOIN students s ON ia.application_id = s.application_id
                 INNER JOIN tblnegeri n ON s.negeri_id = n.id_negeri
@@ -422,7 +422,7 @@
                                             <select name="status" class="form-control">
                                                 <option value="Sedang diproses" <?php if ($student['status'] == 'Sedang diproses') echo "selected"; ?>>Sedang diproses</option>
                                                 <option value="Lulus" <?php if ($student['status'] == 'Lulus') echo "selected"; ?>>Lulus</option>
-                                                <option value="Ditolak" <?php if ($student['status'] == 'Ditolak') echo "selected"; ?>>Ditolak</option>
+                                                <option value="Tidak Lulus" <?php if ($student['status'] == 'Tidak Lulus') echo "selected"; ?>>Tidak Lulus</option>
                                             </select>
                                             <button type="submit" name="update_status" class="btn btn-primary">Kemaskini</button>
                                         </form>
