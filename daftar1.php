@@ -280,6 +280,7 @@ include 'db_connect.php';
                               <!-- Dynamic Forms Container -->
                               <div id="dynamic-forms"></div>
 
+
                               <!-- Add Another Student Button -->
                               <button type="button" class="btn-add" onclick="addStudent()" title="Add another student">
                                  <i class="fas fa-plus"></i> Tambah Pelajar
@@ -306,76 +307,99 @@ include 'db_connect.php';
                                     </tbody>
                               </table>
 
-                           <script>
-                              let studentCount = 0;
-
-                              function addStudent() {
-                                 const studentName = document.querySelector('input[name="students[]"]').value;
-                                 const matricNo = document.querySelector('input[name="matrics[]"]').value;
-                                 const studentIC = document.querySelector('input[name="student_ic[]"]').value;
-                                 const kursus = document.querySelector('input[name="kursus[]"]').value;
-
-                                 const negeriSelect = document.querySelector('select[name="id_negeri[]"]');
-                                 const negeri = negeriSelect.options[negeriSelect.selectedIndex].text;
-
-                                 const lokasiSelect = document.querySelector('select[name="id_lokasi[]"]');
-                                 const lokasi = lokasiSelect.options[lokasiSelect.selectedIndex].text;
-
-                                 const country = document.querySelector('input[name="country[]"]').value; // Capture Negara
-
-                                 if (studentName && matricNo && studentIC && kursus && negeri && lokasi && country) {
-                                    studentCount++;
-                                    const tableBody = document.querySelector('#student-table tbody');
-                                    const rowHTML = `
-                                       <tr>
-                                          <td>${studentCount}</td>
-                                          <td>${studentName}</td>
-                                          <td>${matricNo}</td>
-                                          <td>${studentIC}</td>
-                                          <td>${kursus}</td>
-                                          <td>${negeri}</td>
-                                          <td>${lokasi}</td>
-                                          <td>${country}</td>
-                                          <td><button type="button" onclick="removeStudent(this)"><i class="fas fa-trash"></i></button></td>
-                                       </tr>
-                                    `;
-                                    tableBody.insertAdjacentHTML('beforeend', rowHTML);
-
-                                    document.querySelector('input[name="students[]"]').value = '';
-                                    document.querySelector('input[name="matrics[]"]').value = '';
-                                    document.querySelector('input[name="student_ic[]"]').value = '';
-                                    document.querySelector('input[name="kursus[]"]').value = '';
-                                    document.querySelector('select[name="id_negeri[]"]').value = '';
-                                    document.querySelector('select[name="id_lokasi[]"]').value = '';
-                                    document.querySelector('input[name="country[]"]').value = ''; // Reset Negara field
-                                 } else {
-                                    alert('Please fill all fields before adding.');
-                                 }
-                              }
-
-
-                                 function removeStudent(button) {
-                                    const row = button.closest('tr');
-                                    row.remove();
-                                    renumberTable();
-                                 }
-
-                                 function renumberTable() {
-                                    const rows = document.querySelectorAll('#student-table tbody tr');
-                                    rows.forEach((row, index) => {
-                                       row.querySelector('td:first-child').textContent = index + 1;
-                                    });
-                                 }
-                              function validateForm() {
-                                    return true; 
-                              }
-
-                              function reload(selectElement) {
-                              }
-
-                              document.addEventListener('DOMContentLoaded', () => {
-                              });
-                           </script>
+                              <script> 
+                                 let studentCount = 0; 
+                                 const studentsData = []; // Array to store all students' data 
+                                 
+                                 function addStudent() { 
+                                    const studentName = document.querySelector('input[name="students[]"]').value; 
+                                    const matricNo = document.querySelector('input[name="matrics[]"]').value; 
+                                    const studentIC = document.querySelector('input[name="student_ic[]"]').value; 
+                                    const kursus = document.querySelector('input[name="kursus[]"]').value; 
+                                    const negeriSelect = document.querySelector('select[name="id_negeri[]"]'); 
+                                    const negeri = negeriSelect.options[negeriSelect.selectedIndex].text; 
+                                    const lokasiSelect = document.querySelector('select[name="id_lokasi[]"]'); 
+                                    const lokasi = lokasiSelect.options[lokasiSelect.selectedIndex].text; 
+                                    const country = document.querySelector('input[name="country[]"]').value; // Capture Negara 
+                                 
+                                    if (studentName && matricNo && studentIC && kursus && negeri && lokasi && country) { 
+                                       studentCount++; 
+                                          
+                                       // Add student data to array 
+                                       studentsData.push({ studentName, matricNo, studentIC, kursus, negeri, lokasi, country }); 
+                                 
+                                       // Display student data in the table 
+                                       const tableBody = document.querySelector('#student-table tbody'); 
+                                       const rowHTML = ` 
+                                             <tr> 
+                                                <td>${studentCount}</td> 
+                                                <td>${studentName}</td> 
+                                                <td>${matricNo}</td> 
+                                                <td>${studentIC}</td> 
+                                                <td>${kursus}</td> 
+                                                <td>${negeri}</td> 
+                                                <td>${lokasi}</td> 
+                                                <td>${country}</td> 
+                                                <td><button type="button" onclick="removeStudent(this, ${studentCount - 1})"><i class="fas fa-trash"></i></button></td> 
+                                             </tr> 
+                                       `; 
+                                       tableBody.insertAdjacentHTML('beforeend', rowHTML); 
+                                 
+                                       // Clear input fields for the next student 
+                                       document.querySelector('input[name="students[]"]').value = ''; 
+                                       document.querySelector('input[name="matrics[]"]').value = ''; 
+                                       document.querySelector('input[name="student_ic[]"]').value = ''; 
+                                       document.querySelector('input[name="kursus[]"]').value = ''; 
+                                       document.querySelector('select[name="id_negeri[]"]').value = ''; 
+                                       document.querySelector('select[name="id_lokasi[]"]').value = ''; 
+                                       document.querySelector('input[name="country[]"]').value = ''; // Reset Negara field 
+                                    } else { 
+                                       alert('Please fill all fields before adding.'); 
+                                    } 
+                                 } 
+                                 
+                                 function removeStudent(button, index) { 
+                                    const row = button.closest('tr'); 
+                                    row.remove(); 
+                                    studentsData.splice(index, 1); // Remove student from array 
+                                    renumberTable(); 
+                                 } 
+                                 
+                                 function renumberTable() { 
+                                    const rows = document.querySelectorAll('#student-table tbody tr'); 
+                                    rows.forEach((row, index) => { 
+                                       row.querySelector('td:first-child').textContent = index + 1; 
+                                    }); 
+                                 } 
+                                 
+                                 function submitStudents() { 
+                                    if (studentsData.length > 0) { 
+                                       fetch('your-server-endpoint', { 
+                                             method: 'POST', 
+                                             headers: { 
+                                                'Content-Type': 'application/json' 
+                                             }, 
+                                             body: JSON.stringify({ students: studentsData }) 
+                                       }) 
+                                       .then(response => response.json()) 
+                                       .then(data => { 
+                                             alert("Students added successfully!"); 
+                                             studentsData.length = 0; // Clear the array 
+                                             document.querySelector('#student-table tbody').innerHTML = ''; // Clear the table 
+                                             studentCount = 0; // Reset student count 
+                                       }) 
+                                       .catch(error => { 
+                                             console.error('Error:', error); 
+                                       }); 
+                                    } else { 
+                                       alert('No students to submit.'); 
+                                    } 
+                                 } 
+                                 
+                                 document.addEventListener('DOMContentLoaded', () => { 
+                                    document.getElementById('submit-button').addEventListener('click', submitStudents); 
+                                 }); 
+                                 </script>
                            <br><br>
 
                               <!-- Borang Sokongan Upload -->

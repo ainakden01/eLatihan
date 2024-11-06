@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3307
--- Generation Time: Oct 24, 2024 at 05:26 AM
+-- Generation Time: Nov 02, 2024 at 11:45 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -138,7 +138,15 @@ INSERT INTO `internship_applications` (`application_id`, `borang_sokongan`, `sta
 ('LIUU-076', '1729152253_dummies.pdf', '2024-10-29', '2024-10-30', 9, NULL, 'Tiada'),
 ('LIUU-077', '1729669962_CSC159 LAB07.pdf', '2024-11-08', '2024-12-14', 9, NULL, 'Tiada'),
 ('LIUU-078', '1729670063_LAB03.pdf', '2024-11-15', '2024-12-14', 9, NULL, 'Tiada'),
-('LIUU-079', '1729737298_LAB03.pdf', '2024-10-30', '2024-11-30', 9, NULL, 'Tiada');
+('LIUU-079', '1729737298_LAB03.pdf', '2024-10-30', '2024-11-30', 9, NULL, 'Tiada'),
+('LIUU-080', '1730168622_LAB02 MS47.pdf', '2024-11-16', '2024-12-27', 9, NULL, 'Tiada'),
+('LIUU-081', '1730168763_LAB03.pdf', '2024-11-29', '2025-01-25', 9, NULL, 'Tiada'),
+('LIUU-082', '1730186283_LAB03.pdf', '2024-11-13', '2024-12-12', 9, NULL, 'Tiada'),
+('LIUU-083', '1730251329_LAB03.pdf', '2024-10-31', '2024-11-30', 9, NULL, 'Tiada'),
+('LIUU-084', '1730256661_LAB01.pdf', '2024-11-16', '2025-01-31', 9, NULL, 'Tiada'),
+('LIUU-085', '1730257112_LAB03.pdf', '2024-11-07', '2025-01-12', 9, NULL, 'Tiada'),
+('LIUU-086', '1730273402_LAB03.pdf', '2024-10-31', '2024-11-08', 15, NULL, 'Tiada'),
+('LIUU-087', '1730273607_LAB03.pdf', '2024-10-31', '2024-12-15', 15, NULL, 'Tiada');
 
 -- --------------------------------------------------------
 
@@ -198,7 +206,8 @@ CREATE TABLE `requests` (
 --
 
 INSERT INTO `requests` (`id`, `password`, `email`, `college_uni`, `no_phone`, `nama_pegawai`, `status`) VALUES
-(2, '$2y$10$hlQBHThrqrgAJW6NyvbIvO624oTgwsWm5Y0P0SUHFoBnQsFMswm6.', 'sfdhsfh@gmail.com', 'ghdhs', '145863', 'dgs', 'pending');
+(2, '$2y$10$hlQBHThrqrgAJW6NyvbIvO624oTgwsWm5Y0P0SUHFoBnQsFMswm6.', 'sfdhsfh@gmail.com', 'ghdhs', '145863', 'dgs', 'rejected'),
+(3, '$2y$10$FnZwJSRmyW589vCrp3x0tuL9S8/Yjb1ftfX3DvmeQ8kNVGtEKZu4.', 'nabil@mail.com', 'nabil', '1023456789', 'abhar', 'rejected');
 
 -- --------------------------------------------------------
 
@@ -215,103 +224,112 @@ CREATE TABLE `students` (
   `lokasi_id` int(11) DEFAULT NULL,
   `application_id` varchar(10) DEFAULT NULL,
   `status` enum('Sedang Diproses','Lulus','Tidak Lulus') DEFAULT 'Sedang Diproses',
-  `kursus` varchar(255) DEFAULT NULL
+  `kursus` varchar(255) DEFAULT NULL,
+  `country` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`student_id`, `student_name`, `student_matrics`, `student_ic`, `negeri_id`, `lokasi_id`, `application_id`, `status`, `kursus`) VALUES
-(1, 'Mohamad', 'bcs2111', '012310231023', 10, 83, 'LIUU-001', 'Lulus', NULL),
-(4, 'Rahimi', 'BCS12312', '030403020102', 16, 1, 'LIUU-003', 'Tidak Lulus', 'Degree in Education'),
-(5, 'Syasya', 'AHA12312', '011020019322', 12, 93, 'LIUU-003', 'Tidak Lulus', 'Degree in Statistic'),
-(6, 'Paan', 'YUH12312', '03948482131', 10, 84, 'LIUU-003', 'Tidak Lulus', 'Degree in Law'),
-(7, 'Upin', 'BJE2100', '961234203423', 10, 74, 'LIUU-004', 'Lulus', 'Degree in Game'),
-(8, 'Ipin', 'BGH2141', '981243299248', 16, 1, 'LIUU-004', 'Lulus', 'Degree in TESL'),
-(9, 'Ehsan', 'HUR12312313', '030415120993', 14, 2, 'LIUU-005', 'Tidak Lulus', NULL),
-(10, 'Fizi', 'BAU123123', '094093204830', 5, 57, 'LIUU-005', 'Sedang Diproses', NULL),
-(11, 'Mohamad', 'BCS2111', '035023049340', 13, 97, 'LIUU-006', 'Tidak Lulus', NULL),
-(12, 'TESTING', 'TEST123', '032135435153', 13, 97, 'LIUU-007', 'Sedang Diproses', NULL),
-(13, 'MOHAMAD', 'BUS123123', '024923049103', 11, 89, 'LIUU-008', 'Sedang Diproses', 'Diploma in Law'),
-(14, 'Ijat', 'OKO1203912', '102391203102', 7, 70, 'LIUU-009', 'Lulus', 'Diploma in Computer Science'),
-(15, 'Hakimi', 'BCS12312', '030402030300', 6, 62, 'LIUU-010', 'Tidak Lulus', 'Diploma in Law'),
-(16, 'Shahrul', 'HHA12312', '994123421432', 16, 1, 'LIUU-010', 'Sedang Diproses', 'Diploma in Computer Science'),
-(17, 'Amirul', 'HJC134902', '084123421341', 13, 99, 'LIUU-010', 'Sedang Diproses', 'Degree in Bussiness'),
-(18, 'Tsting', 'fse432424', '423423424232', 16, 1, 'LIUU-011', 'Lulus', 'Diploma in Law'),
-(19, 'Ali ', 'ABC123', '093030303003', 10, 82, 'LIUU-012', 'Sedang Diproses', 'Diploma in Law'),
-(20, 'Abu', 'DEF321', '094309203492', 12, 93, 'LIUU-012', 'Sedang Diproses', 'Diploma in Computer Science'),
-(21, 'Atan', 'HAH123', '023940239402', 11, 91, 'LIUU-012', 'Tidak Lulus', 'Diploma in Law'),
-(22, 'Jihyo', 'RAW13123213', '093208402340', 11, 87, 'LIUU-013', 'Sedang Diproses', 'Diploma in Accounting'),
-(23, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-014', 'Sedang Diproses', 'Diploma in Accounting'),
-(24, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-015', 'Sedang Diproses', 'Diploma in Accounting'),
-(25, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-016', 'Sedang Diproses', 'Diploma in Accounting'),
-(26, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-017', 'Sedang Diproses', 'Diploma in Accounting'),
-(27, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-018', 'Sedang Diproses', 'Diploma in Accounting'),
-(28, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-019', 'Sedang Diproses', 'Diploma in Accounting'),
-(29, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-020', 'Sedang Diproses', 'Diploma in Accounting'),
-(30, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-021', 'Sedang Diproses', 'Diploma in Accounting'),
-(31, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-022', 'Sedang Diproses', 'Diploma in Accounting'),
-(32, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-023', 'Sedang Diproses', 'Diploma in Accounting'),
-(33, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-024', 'Sedang Diproses', 'Diploma in Accounting'),
-(34, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-025', 'Sedang Diproses', 'Diploma in Accounting'),
-(35, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-026', 'Sedang Diproses', 'Diploma in Accounting'),
-(36, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-027', 'Sedang Diproses', 'Diploma in Accounting'),
-(37, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-028', 'Sedang Diproses', 'Diploma in Accounting'),
-(38, 'Baim', 'BCS1231231', '030415120993', 10, 80, 'LIUU-029', 'Sedang Diproses', 'Diploma in Accounting'),
-(39, 'Dina', 'HAR123213', '030415120993', 14, 2, 'LIUU-030', 'Sedang Diproses', 'Diploma in Accounting'),
-(40, 'Aiman ', 'BRA12353', '093240294024', 14, 2, 'LIUU-031', 'Sedang Diproses', 'Diploma in Accounting'),
-(41, 'Haikal', 'HAR12321', '040112091264', 12, 94, 'LIUU-032', 'Sedang Diproses', 'Diploma in Law'),
-(42, 'Aimanrahimi', 'SJA2343251', '302403249029', 8, 15, 'LIUU-033', 'Sedang Diproses', 'Diploma in Accounting'),
-(43, 'Mirul', 'Jdljfnwlqr3q1', '013490341041', 14, 2, 'LIUU-034', 'Sedang Diproses', 'Diploma in Law'),
-(44, 'Mirul', 'Jdljfnwlqr3q1', '013490341041', 14, 2, 'LIUU-035', 'Sedang Diproses', 'Diploma in Law'),
-(45, 'Mirul', 'Jdljfnwlqr3q1', '013490341041', 14, 2, 'LIUU-036', 'Sedang Diproses', 'Diploma in Law'),
-(46, 'Test', '231321', '423423423424', 8, 18, 'LIUU-037', 'Sedang Diproses', 'Diploma in Law'),
-(47, 'Test', '231321', '423423423424', 8, 18, 'LIUU-038', 'Sedang Diproses', 'Diploma in Law'),
-(48, 'Testinb', '1231', '123123123213', 10, 78, 'LIUU-039', 'Sedang Diproses', 'Diploma in Law'),
-(49, 'Testinb', '1231', '123123123213', 10, 78, 'LIUU-040', 'Sedang Diproses', 'Diploma in Law'),
-(50, 'Testing', 'HAHA0123123123', '123123213131', 11, 87, 'LIUU-041', 'Sedang Diproses', 'Diploma in Accounting'),
-(51, 'Testing', '76765858', '766666666666', 7, 70, 'LIUU-042', 'Sedang Diproses', 'Diploma in Law'),
-(52, 'MOHAMAD AIMAN', 'BCS2111', '030134023043', 13, 98, 'LIUU-043', 'Sedang Diproses', 'Diploma in Computer Science'),
-(53, 'Iman', 'BHA1321', '091231029313', 10, 86, 'LIUU-044', 'Sedang Diproses', 'Diploma in Law'),
-(54, 'Aidil', '202112241010', '991223566678', 10, 80, 'LIUU-045', 'Sedang Diproses', 'Diploma in Law'),
-(55, 'Mohamad', '2021', '039401481093', 7, 69, 'LIUU-046', 'Sedang Diproses', 'Diploma in Law'),
-(56, 'Aiman', '2022', '019283901283', 16, 1, 'LIUU-046', 'Sedang Diproses', 'Degree in Law'),
-(57, 'Rahimi', '2023', '091238021902', 11, 87, 'LIUU-046', 'Sedang Diproses', 'ACCA'),
-(58, 'Abu', '2025', '090909430320', 14, 2, 'LIUU-047', 'Sedang Diproses', 'Diploma in Law'),
-(59, 'Ali', '20240305', '000921116023', 16, 1, 'LIUU-048', 'Tidak Lulus', 'Diploma in Law'),
-(60, 'Abu', '20240203', '020911032034', 11, 89, 'LIUU-048', 'Tidak Lulus', 'Bachelors in Law'),
-(62, 'Ali', '123', '019230129372', 4, 48, 'LIUU-049', 'Lulus', 'Diploma in Law'),
-(63, 'Aiman', '91312001293', '032141239193', 12, 93, 'LIUU-050', 'Sedang Diproses', 'Diploma in Law'),
-(64, 'Mohamad', '09123', 'Notentera12123', 7, 70, 'LIUU-051', 'Sedang Diproses', 'Diploma in Law'),
-(65, 'Aiman', '0918321', '034129831293', 11, 88, 'LIUU-052', 'Sedang Diproses', 'Diploma in Law'),
-(66, 'kjhkjhk', '09809809', '093208402340', 14, 2, 'LIUU-053', 'Sedang Diproses', 'Diploma in Law'),
-(67, '', '', '', 0, 0, 'LIUU-054', 'Sedang Diproses', ''),
-(68, '', '', '', 0, 0, 'LIUU-055', 'Sedang Diproses', ''),
-(69, '', '', '', 0, 0, 'LIUU-056', 'Sedang Diproses', ''),
-(70, '', '', '', 0, 0, 'LIUU-057', 'Sedang Diproses', ''),
-(71, 'Abu', '23423424', '1231231', 10, 76, 'LIUU-058', 'Tidak Lulus', '23423423'),
-(72, 'aeshae', '00000', '123456', 16, 1, 'LIUU-059', 'Tidak Lulus', 'Information Technology'),
-(73, 'abc', '123', '123', 16, 1, 'LIUU-060', 'Tidak Lulus', 'abc'),
-(74, 'a', '1', '1', 16, 1, 'LIUU-061', 'Tidak Lulus', 'a'),
-(75, 'a', 'a', 'a', 16, 1, 'LIUU-062', 'Tidak Lulus', 'a'),
-(76, 'as', 'sa', 'sas', 16, 1, 'LIUU-063', 'Tidak Lulus', 'sa'),
-(77, 'aa', '12', '12', 7, 70, 'LIUU-064', 'Sedang Diproses', 'aa'),
-(78, 'aa', 'aa', 'aa', 16, 1, 'LIUU-065', 'Tidak Lulus', 'aa'),
-(79, 'arif', '123', '123', 12, 95, 'LIUU-066', 'Tidak Lulus', 'computer'),
-(80, 'aa', 'aa', 'aa', 16, 1, 'LIUU-067', 'Lulus', 'aa'),
-(81, 'test', 'aa', 'aa', 16, 1, 'LIUU-068', 'Sedang Diproses', 'aa'),
-(82, 'ds', 'dd', 'dd', 7, 70, 'LIUU-069', 'Tidak Lulus', 'dd'),
-(83, 'aa', 'aa', 'aa', 9, 74, 'LIUU-070', 'Sedang Diproses', 'aa'),
-(84, 'aa', 'aa', 'aa', 13, 98, 'LIUU-071', 'Sedang Diproses', 'aa'),
-(85, 'cc', 'cc', 'cc', 13, 99, 'LIUU-072', 'Sedang Diproses', 'cc'),
-(86, 'bb', 'bb', 'bb', 10, 84, 'LIUU-073', 'Sedang Diproses', 'bb'),
-(87, 'cc', 'cc', 'cc', 11, 88, 'LIUU-074', 'Sedang Diproses', 'cc'),
-(88, 'bb', 'bb', 'bb', 6, 61, 'LIUU-075', 'Sedang Diproses', 'bb'),
-(89, 'bb', 'bb', 'bb', 12, 95, 'LIUU-076', 'Sedang Diproses', 'bb'),
-(90, 'shstht', 'sdhgearha', 'sthsth', 8, 13, 'LIUU-077', 'Sedang Diproses', 'sthst'),
-(91, 'a', 'A', 'AA', 12, 94, 'LIUU-078', 'Sedang Diproses', 'A'),
-(92, 'aadf', 'afasg', 'sgfd', 8, 9, 'LIUU-079', 'Sedang Diproses', 'sdhs');
+INSERT INTO `students` (`student_id`, `student_name`, `student_matrics`, `student_ic`, `negeri_id`, `lokasi_id`, `application_id`, `status`, `kursus`, `country`) VALUES
+(1, 'Mohamad', 'bcs2111', '012310231023', 10, 83, 'LIUU-001', 'Lulus', NULL, NULL),
+(4, 'Rahimi', 'BCS12312', '030403020102', 16, 1, 'LIUU-003', 'Tidak Lulus', 'Degree in Education', NULL),
+(5, 'Syasya', 'AHA12312', '011020019322', 12, 93, 'LIUU-003', 'Tidak Lulus', 'Degree in Statistic', NULL),
+(6, 'Paan', 'YUH12312', '03948482131', 10, 84, 'LIUU-003', 'Tidak Lulus', 'Degree in Law', NULL),
+(7, 'Upin', 'BJE2100', '961234203423', 10, 74, 'LIUU-004', 'Lulus', 'Degree in Game', NULL),
+(8, 'Ipin', 'BGH2141', '981243299248', 16, 1, 'LIUU-004', 'Lulus', 'Degree in TESL', NULL),
+(9, 'Ehsan', 'HUR12312313', '030415120993', 14, 2, 'LIUU-005', 'Tidak Lulus', NULL, NULL),
+(10, 'Fizi', 'BAU123123', '094093204830', 5, 57, 'LIUU-005', 'Sedang Diproses', NULL, NULL),
+(11, 'Mohamad', 'BCS2111', '035023049340', 13, 97, 'LIUU-006', 'Tidak Lulus', NULL, NULL),
+(12, 'TESTING', 'TEST123', '032135435153', 13, 97, 'LIUU-007', 'Sedang Diproses', NULL, NULL),
+(13, 'MOHAMAD', 'BUS123123', '024923049103', 11, 89, 'LIUU-008', 'Sedang Diproses', 'Diploma in Law', NULL),
+(14, 'Ijat', 'OKO1203912', '102391203102', 7, 70, 'LIUU-009', 'Lulus', 'Diploma in Computer Science', NULL),
+(15, 'Hakimi', 'BCS12312', '030402030300', 6, 62, 'LIUU-010', 'Tidak Lulus', 'Diploma in Law', NULL),
+(16, 'Shahrul', 'HHA12312', '994123421432', 16, 1, 'LIUU-010', 'Sedang Diproses', 'Diploma in Computer Science', NULL),
+(17, 'Amirul', 'HJC134902', '084123421341', 13, 99, 'LIUU-010', 'Sedang Diproses', 'Degree in Bussiness', NULL),
+(18, 'Tsting', 'fse432424', '423423424232', 16, 1, 'LIUU-011', 'Lulus', 'Diploma in Law', NULL),
+(19, 'Ali ', 'ABC123', '093030303003', 10, 82, 'LIUU-012', 'Sedang Diproses', 'Diploma in Law', NULL),
+(20, 'Abu', 'DEF321', '094309203492', 12, 93, 'LIUU-012', 'Sedang Diproses', 'Diploma in Computer Science', NULL),
+(21, 'Atan', 'HAH123', '023940239402', 11, 91, 'LIUU-012', 'Tidak Lulus', 'Diploma in Law', NULL),
+(22, 'Jihyo', 'RAW13123213', '093208402340', 11, 87, 'LIUU-013', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(23, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-014', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(24, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-015', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(25, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-016', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(26, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-017', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(27, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-018', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(28, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-019', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(29, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-020', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(30, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-021', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(31, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-022', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(32, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-023', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(33, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-024', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(34, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-025', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(35, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-026', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(36, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-027', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(37, 'Jihyo', 'BSC324242', '093208402340', 14, 2, 'LIUU-028', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(38, 'Baim', 'BCS1231231', '030415120993', 10, 80, 'LIUU-029', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(39, 'Dina', 'HAR123213', '030415120993', 14, 2, 'LIUU-030', 'Tidak Lulus', 'Diploma in Accounting', NULL),
+(40, 'Aiman ', 'BRA12353', '093240294024', 14, 2, 'LIUU-031', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(41, 'Haikal', 'HAR12321', '040112091264', 12, 94, 'LIUU-032', 'Sedang Diproses', 'Diploma in Law', NULL),
+(42, 'Aimanrahimi', 'SJA2343251', '302403249029', 8, 15, 'LIUU-033', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(43, 'Mirul', 'Jdljfnwlqr3q1', '013490341041', 14, 2, 'LIUU-034', 'Sedang Diproses', 'Diploma in Law', NULL),
+(44, 'Mirul', 'Jdljfnwlqr3q1', '013490341041', 14, 2, 'LIUU-035', 'Sedang Diproses', 'Diploma in Law', NULL),
+(45, 'Mirul', 'Jdljfnwlqr3q1', '013490341041', 14, 2, 'LIUU-036', 'Sedang Diproses', 'Diploma in Law', NULL),
+(46, 'Test', '231321', '423423423424', 8, 18, 'LIUU-037', 'Sedang Diproses', 'Diploma in Law', NULL),
+(47, 'Test', '231321', '423423423424', 8, 18, 'LIUU-038', 'Sedang Diproses', 'Diploma in Law', NULL),
+(48, 'Testinb', '1231', '123123123213', 10, 78, 'LIUU-039', 'Sedang Diproses', 'Diploma in Law', NULL),
+(49, 'Testinb', '1231', '123123123213', 10, 78, 'LIUU-040', 'Sedang Diproses', 'Diploma in Law', NULL),
+(50, 'Testing', 'HAHA0123123123', '123123213131', 11, 87, 'LIUU-041', 'Sedang Diproses', 'Diploma in Accounting', NULL),
+(51, 'Testing', '76765858', '766666666666', 7, 70, 'LIUU-042', 'Sedang Diproses', 'Diploma in Law', NULL),
+(52, 'MOHAMAD AIMAN', 'BCS2111', '030134023043', 13, 98, 'LIUU-043', 'Sedang Diproses', 'Diploma in Computer Science', NULL),
+(53, 'Iman', 'BHA1321', '091231029313', 10, 86, 'LIUU-044', 'Sedang Diproses', 'Diploma in Law', NULL),
+(54, 'Aidil', '202112241010', '991223566678', 10, 80, 'LIUU-045', 'Tidak Lulus', 'Diploma in Law', NULL),
+(55, 'Mohamad', '2021', '039401481093', 7, 69, 'LIUU-046', 'Sedang Diproses', 'Diploma in Law', NULL),
+(56, 'Aiman', '2022', '019283901283', 16, 1, 'LIUU-046', 'Sedang Diproses', 'Degree in Law', NULL),
+(57, 'Rahimi', '2023', '091238021902', 11, 87, 'LIUU-046', 'Sedang Diproses', 'ACCA', NULL),
+(58, 'Abu', '2025', '090909430320', 14, 2, 'LIUU-047', 'Sedang Diproses', 'Diploma in Law', NULL),
+(59, 'Ali', '20240305', '000921116023', 16, 1, 'LIUU-048', 'Tidak Lulus', 'Diploma in Law', NULL),
+(60, 'Abu', '20240203', '020911032034', 11, 89, 'LIUU-048', 'Tidak Lulus', 'Bachelors in Law', NULL),
+(62, 'Ali', '123', '019230129372', 4, 48, 'LIUU-049', 'Lulus', 'Diploma in Law', NULL),
+(63, 'Aiman', '91312001293', '032141239193', 12, 93, 'LIUU-050', 'Sedang Diproses', 'Diploma in Law', NULL),
+(64, 'Mohamad', '09123', 'Notentera12123', 7, 70, 'LIUU-051', 'Sedang Diproses', 'Diploma in Law', NULL),
+(65, 'Aiman', '0918321', '034129831293', 11, 88, 'LIUU-052', 'Sedang Diproses', 'Diploma in Law', NULL),
+(66, 'kjhkjhk', '09809809', '093208402340', 14, 2, 'LIUU-053', 'Sedang Diproses', 'Diploma in Law', NULL),
+(67, '', '', '', 0, 0, 'LIUU-054', 'Sedang Diproses', '', NULL),
+(68, '', '', '', 0, 0, 'LIUU-055', 'Sedang Diproses', '', NULL),
+(69, '', '', '', 0, 0, 'LIUU-056', 'Sedang Diproses', '', NULL),
+(70, '', '', '', 0, 0, 'LIUU-057', 'Sedang Diproses', '', NULL),
+(71, 'Abu', '23423424', '1231231', 10, 76, 'LIUU-058', 'Tidak Lulus', '23423423', NULL),
+(72, 'aeshae', '00000', '123456', 16, 1, 'LIUU-059', 'Tidak Lulus', 'Information Technology', NULL),
+(73, 'abc', '123', '123', 16, 1, 'LIUU-060', 'Tidak Lulus', 'abc', NULL),
+(74, 'a', '1', '1', 16, 1, 'LIUU-061', 'Tidak Lulus', 'a', NULL),
+(75, 'a', 'a', 'a', 16, 1, 'LIUU-062', 'Tidak Lulus', 'a', NULL),
+(76, 'as', 'sa', 'sas', 16, 1, 'LIUU-063', 'Tidak Lulus', 'sa', NULL),
+(77, 'aa', '12', '12', 7, 70, 'LIUU-064', 'Sedang Diproses', 'aa', NULL),
+(78, 'aa', 'aa', 'aa', 16, 1, 'LIUU-065', 'Tidak Lulus', 'aa', NULL),
+(79, 'arif', '123', '123', 12, 95, 'LIUU-066', 'Tidak Lulus', 'computer', NULL),
+(80, 'aa', 'aa', 'aa', 16, 1, 'LIUU-067', 'Lulus', 'aa', NULL),
+(81, 'test', 'aa', 'aa', 16, 1, 'LIUU-068', 'Sedang Diproses', 'aa', NULL),
+(82, 'ds', 'dd', 'dd', 7, 70, 'LIUU-069', 'Tidak Lulus', 'dd', NULL),
+(83, 'aa', 'aa', 'aa', 9, 74, 'LIUU-070', 'Sedang Diproses', 'aa', NULL),
+(84, 'aa', 'aa', 'aa', 13, 98, 'LIUU-071', 'Sedang Diproses', 'aa', NULL),
+(85, 'cc', 'cc', 'cc', 13, 99, 'LIUU-072', 'Sedang Diproses', 'cc', NULL),
+(86, 'bb', 'bb', 'bb', 10, 84, 'LIUU-073', 'Sedang Diproses', 'bb', NULL),
+(87, 'cc', 'cc', 'cc', 11, 88, 'LIUU-074', 'Sedang Diproses', 'cc', NULL),
+(88, 'bb', 'bb', 'bb', 6, 61, 'LIUU-075', 'Sedang Diproses', 'bb', NULL),
+(89, 'bb', 'bb', 'bb', 12, 95, 'LIUU-076', 'Sedang Diproses', 'bb', NULL),
+(90, 'shstht', 'sdhgearha', 'sthsth', 8, 13, 'LIUU-077', '', 'sthst', NULL),
+(91, 'a', 'A', 'AA', 12, 94, 'LIUU-078', 'Sedang Diproses', 'A', NULL),
+(92, 'aadf', 'afasg', 'sgfd', 8, 9, 'LIUU-079', 'Lulus', 'sdhs', NULL),
+(93, 'CHSAH', 'arharha', 'ahsdhfdshsgfj', 12, 96, 'LIUU-080', 'Tidak Lulus', 'snsdjs', 'htsjtarjsryks'),
+(94, 'tusuau', 'tjsisr', 'sryjsyrksr', 6, 65, 'LIUU-081', 'Lulus', 'skytksryk', 'ykykae'),
+(95, 'rin', '741823', '583738', 7, 71, 'LIUU-082', '', 'cs230', 'japan'),
+(96, 'gsjgjatj', 'sfghmy', 'ahaetjte', 10, 78, 'LIUU-083', '', 'gsfnatrja', 'ajnetkae'),
+(97, 'Danial bin Azfar', '456789', '06050808', 11, 92, 'LIUU-084', 'Sedang Diproses', 'UED101', ''),
+(98, 'Faizul bin Rahman', '74568923', '07030808', 7, 70, 'LIUU-085', 'Sedang Diproses', 'dfangrnbqer', 'MALAYSIA'),
+(99, 'Sufiya Aisyah', '2022662438', '04101914', 10, 82, 'LIUU-086', 'Lulus', 'CS110', 'MALAYSIA'),
+(100, 'Sufiya Aisyah', '2022662438', '04101914', 16, 1, 'LIUU-087', 'Sedang Diproses', 'CS110', 'MALAYSIA');
 
 -- --------------------------------------------------------
 
@@ -503,7 +521,9 @@ INSERT INTO `users` (`user_id`, `password`, `email`, `college_uni`, `name`, `no_
 (10, '$2y$10$phmsCs.VG77bMIVK.8khPOMuAeAQ16dv7QKKr3Qu/raaZ1aQsqDrK', 'aimanrahimi8080@gmail.com', 'Universiti Kuala Lumpur', '', '01162232686', 'Aiman Rahimi', 'pending'),
 (11, '$2y$10$YPvS7Nw4G04MxTdwm42QrODFp37D40nH7XnVbdI43mO7r.FXcpFEW', 'uitm@gmail.com', 'UITM', '', '012212313121', 'Ali', 'pending'),
 (12, '$2y$10$P9uCdFuyDLudp4sCzP7BU.kNcKM6DpgHsjZhYXqNP4nqBszZSE3gm', 'politeknik@yahoo.com', 'Politeknik', '', '1230456789', 'Suf', 'approved'),
-(13, '$2y$10$ABGm0clYV.8O4b03yoIkWOHNIVOe8gn8RmxQ1qHdw7ltVW4tbzWSe', 'unikl@mail.com', 'unikl', '', '1789456302', 'Zad', 'approved');
+(13, '$2y$10$ABGm0clYV.8O4b03yoIkWOHNIVOe8gn8RmxQ1qHdw7ltVW4tbzWSe', 'unikl@mail.com', 'unikl', '', '1789456302', 'Zad', 'approved'),
+(14, '$2y$10$I59HeEXV0mLSSVTc2nklree6xTyMWyJoyw7AMBUeAV6.GTFBvn5x2', 'suf@yahoo.com', 'suf', '', '7854961230', 'suf', 'approved'),
+(15, '$2y$10$KfUmparV7CFnHKNKy5o6QOYqBX3EJ0qIoRIi6v20bQEFQSHGYiYtC', 'sufiya@maail.com', 'Sufiya', '', '04492626+979879', 'Sufiya', 'approved');
 
 --
 -- Indexes for dumped tables
@@ -584,13 +604,13 @@ ALTER TABLE `rayuan`
 -- AUTO_INCREMENT for table `requests`
 --
 ALTER TABLE `requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT for table `tbllokasi`
@@ -602,7 +622,7 @@ ALTER TABLE `tbllokasi`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
