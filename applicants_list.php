@@ -14,7 +14,8 @@
     switch ($filter)
     {
         case 'approved':
-            $whereClause = "WHERE status = 'Lulus'";
+            $whereClause = "WHERE students.status = 'Lulus' 
+                            OR (rayuan.student_id IS NOT NULL AND rayuan.appeal_status = 'Approved')";
             $title = "Permohonan Berjaya";
             break;
         case 'disapproved':
@@ -31,7 +32,13 @@
 
     try
     {
-        $stmt = $pdo->prepare("SELECT * FROM students $whereClause");
+        // Join students with rayuan to get both approved students and approved appeals
+        $stmt = $pdo->prepare("
+            SELECT students.*, rayuan.appeal_status 
+            FROM students 
+            LEFT JOIN rayuan ON students.student_id = rayuan.student_id
+            $whereClause
+        ");
         $stmt->execute();
         $applications = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

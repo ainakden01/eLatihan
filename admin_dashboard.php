@@ -12,8 +12,15 @@ try {
     $stmt = $pdo->query("SELECT COUNT(*) AS pending FROM students WHERE status = 'Sedang Diproses'");
     $pending_applications = $stmt->fetchColumn();
 
-    $stmt = $pdo->query("SELECT COUNT(*) AS approved FROM students WHERE status = 'Lulus'");
+    $stmt = $pdo->query("
+                            SELECT COUNT(*) AS approved 
+                            FROM students s
+                            LEFT JOIN rayuan r ON s.student_id = r.student_id 
+                            WHERE s.status = 'Lulus' 
+                            OR (r.appeal_status = 'Approved' AND r.student_id IS NOT NULL)
+                            ");
     $approved_applications = $stmt->fetchColumn();
+
 
     $stmt = $pdo->query("SELECT COUNT(*) AS disapproved FROM students WHERE status = 'Tidak Lulus'");
     $disapproved_applications = $stmt->fetchColumn();
